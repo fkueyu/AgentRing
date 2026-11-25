@@ -53,7 +53,7 @@ App Store sandbox does not allow.
 | `Sources/AgentRing/LightingPanels.swift` | Display / standby / layout / states panels; accent palette + per-state effect/speed; previews are mirrored through `POST /preview` |
 | `Sources/AgentRing/SourcesTab.swift` | Install/connection status per agent (via `/sources`), one-click hook installers, on-ring toggles and colour wells |
 | `Sources/AgentRing/GeneralTab.swift` | Daemon/ring diagnostics and maintenance |
-| `AgentRingCore/` | Swift 6 port of the daemon state model; first slice is the per-session state machine with tests |
+| `AgentRingCore/` | Swift 6 port of the daemon state model; per-session state machine + v3 config with tests |
 | `Sources/AgentRing/SettingsControls.swift` | Session rows, badges and attention chips |
 | `Sources/AgentRing/RingLayerView.swift` | 24 CALayers driven by `/frame` at 30 fps (previews are daemon state) |
 | `Sources/AgentRing/AgentRingSession.swift` | Ephemeral URLSession; no CFNetwork sleep assertions |

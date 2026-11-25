@@ -8,9 +8,10 @@ All notable changes are documented here. The format follows
 
 ### Added
 
-- `AgentRingCore`, a Swift 6 port of the daemon state model. The first slice is
-  the per-session state machine with tests for the done hold, stale fallback,
-  session-end grace, out-of-order guards and persistence.
+- `AgentRingCore`, a Swift 6 port of the daemon state model. The first slices
+  are the per-session state machine (done hold, stale fallback, session-end
+  grace, out-of-order guards, persistence) and the v3 `RingConfig` with the
+  daemon's ranges, defaults and colour/effect/source fallbacks.
 - Hardware photos of the assembled 24-LED ring and the PCB dimensions under
   `hardware/photos/`, linked from both hardware guides and used on the website.
 - `scripts/build-firmware.mjs` builds the USB app/merged images and publishes a

@@ -49,7 +49,7 @@ AppIcon asset catalog、隐私清单和两套本地化。`build.sh` 仍用于直
 | `Sources/AgentRing/LightingPanels.swift` | 显示 / 待机 / 布局 / 状态面板；会话配色 + 每个状态的动效/速度；预览通过 `POST /preview` 镜像 |
 | `Sources/AgentRing/SourcesTab.swift` | 每个 agent 的安装/连接状态（通过 `/sources`）、一键接入 hook、上环开关和色块 |
 | `Sources/AgentRing/GeneralTab.swift` | 守护进程/灯环诊断与维护 |
-| `AgentRingCore/` | daemon 状态模型的 Swift 6 移植；第一块是带测试的每会话状态机 |
+| `AgentRingCore/` | daemon 状态模型的 Swift 6 移植；每会话状态机 + v3 配置，带测试 |
 | `Sources/AgentRing/SettingsControls.swift` | 会话行、徽标和提醒标签 |
 | `Sources/AgentRing/RingLayerView.swift` | 由 `/frame` 以 30 fps 驱动的 24 个 CALayer（预览也是守护进程状态） |
 | `Sources/AgentRing/AgentRingSession.swift` | 临时 URLSession；不产生 CFNetwork 休眠断言 |
