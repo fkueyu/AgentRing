@@ -12,6 +12,7 @@ re-run after moving the checkout.
 | `install-codex-hooks.mjs` | Optional: merges the 7 Codex hook events into `~/.codex/hooks.json` (backs up first; `--uninstall`/`--dry-run`) |
 | `install-claude-hooks.mjs` | Optional: merges the Claude hook events (including `StopFailure` for the error state) into `~/.claude/settings.json`, preserving other hooks (backs up first; `--uninstall`/`--dry-run`) |
 | `sync-version.mjs` | Keeps package versions in sync with the root `VERSION` file (`--check` for CI) |
+| `build-firmware.mjs` | Compiles the ring firmware and publishes the app/merged USB images plus a SHA-256 manifest under the website `public/agentring/firmware/` |
 
 The daemon LaunchAgent uses the stable Homebrew `node` wrapper when available,
 so `brew upgrade node` does not break the job.

@@ -11,6 +11,7 @@ macOS 上的用户级安装辅助脚本。所有脚本都是幂等的，移动�
 | `install-codex-hooks.mjs` | 可选：把 7 个 Codex hook 事件合并进 `~/.codex/hooks.json`（先备份；支持 `--uninstall`/`--dry-run`） |
 | `install-claude-hooks.mjs` | 可选：把 Claude hook 事件（含用于报错态的 `StopFailure`）合并进 `~/.claude/settings.json`，保留其他 hook（先备份；支持 `--uninstall`/`--dry-run`） |
 | `sync-version.mjs` | 让各 package 版本与根目录 `VERSION` 保持一致（CI 用 `--check`） |
+| `build-firmware.mjs` | 编译灯环固件，把 app/merged USB 镜像和 SHA-256 manifest 发布到官网 `public/agentring/firmware/` |
 
 daemon 的 LaunchAgent 会优先使用 Homebrew 提供的稳定 `node` wrapper，因此
 `brew upgrade node` 不会弄坏这个任务。

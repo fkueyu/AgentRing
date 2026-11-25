@@ -18,7 +18,21 @@
 - 帧格式：来自守护进程 TCP 帧流（端口 7802）的 72 字节 RGB
 - Wi-Fi：NVS 凭据 + SoftAP/配网页面；串口后备
 
-接线、供电、编译和烧录说明见 [docs/hardware.zh.md](../docs/hardware.zh.md)。编译检查：
+接线、供电、编译和烧录说明见 [docs/hardware.zh.md](../docs/hardware.zh.md)。
+
+## 发布构建与托管
+
+App 从官网下载 USB 镜像。下面的脚本会生成普通 app 镜像、完整恢复镜像和 SHA-256 manifest：
+
+```sh
+node scripts/build-firmware.mjs --public-dir ../web/public/agentring/firmware
+```
+
+输出 `manifest.json`、`agentring-<version>-app.bin`（偏移 `0x10000`，保留 NVS/Wi-Fi）
+和 `agentring-<version>-merged.bin`（偏移 `0x0`，空白板/恢复）。manifest 发布地址为
+`https://ainx.ink/agentring/firmware/manifest.json`。
+
+编译检查：
 
 ```sh
 arduino-cli compile \

@@ -9,6 +9,14 @@ A printable enclosure for the 24-LED ring and its ESP32-C3 board.
 | V2 (current) | `enclosure/v2/` | 12.0 × 8.2 mm, C1 chamfer, anti-rotation ribs |
 | V1 | `enclosure/` | 14.0 × 6.2 mm |
 
+## Photos
+
+![Front and back of the 24-LED ring](photos/ring-front-back.webp)
+
+The 24 × WS2812B ring with the ESP32-C3 board and USB-C: LED side and back.
+More: [vertical front/back](photos/ring-front-back-vertical.webp) ·
+[PCB dimensions](photos/ring-dimensions.webp).
+
 Each folder contains the three print-ready STLs (base, diffuser, center), the
 Blender source (`*.blend`), a preview render, a zipped bundle and print/assembly
 notes (`打印与装配.txt` in Chinese, `Printing and Assembly.txt` in English). `build_enclosure.py` regenerates the model in

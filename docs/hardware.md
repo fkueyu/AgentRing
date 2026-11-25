@@ -5,6 +5,14 @@
 For end-to-end installation (daemon, app, hooks, provisioning and verification)
 see [Installation](installation.md).
 
+## Photos
+
+![Front and back of the 24-LED ring](../hardware/photos/ring-front-back.webp)
+
+The 24 × WS2812B ring, ESP32-C3 board and USB-C connector: LED side and back.
+More: [vertical front/back](../hardware/photos/ring-front-back-vertical.webp) ·
+[PCB dimensions](../hardware/photos/ring-dimensions.webp).
+
 ## Bill of materials
 
 - ESP32-C3 development board (4 MB flash tested; native USB-Serial/JTAG).

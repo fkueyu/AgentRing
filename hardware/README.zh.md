@@ -9,6 +9,14 @@
 | V2（当前） | `enclosure/v2/` | 12.0 × 8.2 mm，C1 倒角，防转凸筋 |
 | V1 | `enclosure/` | 14.0 × 6.2 mm |
 
+## 照片
+
+![24 颗 WS2812B 灯环正面与背面](photos/ring-front-back.webp)
+
+24 颗 WS2812B 灯环、ESP32-C3 板与 USB-C 接口：灯珠面与背面。
+更多：[竖排正反面](photos/ring-front-back-vertical.webp) ·
+[PCB 尺寸标注](photos/ring-dimensions.webp)。
+
 每个目录包含三个可直接打印的 STL（底座、柔光罩、中心件）、Blender 源文件（`*.blend`）、
 一张预览渲染图、一个压缩包，以及打印/装配说明（中文 `打印与装配.txt`，英文 `Printing and Assembly.txt`）。`build_enclosure.py`
 可在 Blender 中重新生成模型。

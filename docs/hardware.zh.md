@@ -4,6 +4,14 @@
 
 完整的部署流程（守护进程、App、hook、配网和验收）见[部署指南](installation.zh.md)。
 
+## 照片
+
+![24 颗 WS2812B 灯环正面与背面](../hardware/photos/ring-front-back.webp)
+
+24 颗 WS2812B 灯环、ESP32-C3 板与 USB-C 接口：灯珠面与背面。
+更多：[竖排正反面](../hardware/photos/ring-front-back-vertical.webp) ·
+[PCB 尺寸标注](../hardware/photos/ring-dimensions.webp)。
+
 ## 物料清单
 
 - ESP32-C3 开发板（已验证 4 MB Flash；原生 USB-Serial/JTAG）。

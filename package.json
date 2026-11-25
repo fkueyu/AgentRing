@@ -14,7 +14,8 @@
     "version:sync": "node scripts/sync-version.mjs",
     "version:check": "node scripts/sync-version.mjs --check",
     "install:claude": "node scripts/install-claude-hooks.mjs",
-    "uninstall:claude": "node scripts/install-claude-hooks.mjs --uninstall"
+    "uninstall:claude": "node scripts/install-claude-hooks.mjs --uninstall",
+    "build:firmware": "node scripts/build-firmware.mjs"
   },
   "license": "MIT",
   "engines": {

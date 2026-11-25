@@ -19,7 +19,23 @@
 - Wi-Fi: NVS credentials + SoftAP/captive-portal provisioning; serial fallback
 
 See [docs/hardware.md](../docs/hardware.md) for wiring, power, build and flash
-instructions. Compile check:
+instructions.
+
+## Release build and hosting
+
+The app downloads USB images from the official site. Build and publish both the
+normal app image and the full recovery image with a SHA-256 manifest:
+
+```sh
+node scripts/build-firmware.mjs --public-dir ../web/public/agentring/firmware
+```
+
+This writes `manifest.json` plus `agentring-<version>-app.bin` (offset
+`0x10000`, keeps NVS/Wi-Fi) and `agentring-<version>-merged.bin` (offset `0x0`,
+blank board/recovery). The manifest is published at
+`https://ainx.ink/agentring/firmware/manifest.json`.
+
+Compile check:
 
 ```sh
 arduino-cli compile \

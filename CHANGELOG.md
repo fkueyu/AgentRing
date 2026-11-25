@@ -8,6 +8,10 @@ All notable changes are documented here. The format follows
 
 ### Added
 
+- Hardware photos of the assembled 24-LED ring and the PCB dimensions under
+  `hardware/photos/`, linked from both hardware guides and used on the website.
+- `scripts/build-firmware.mjs` builds the USB app/merged images and publishes a
+  SHA-256 manifest under the website's `/agentring/firmware/` path.
 - An Xcode App Store target (`macos/AgentRing.xcodeproj`) with App Sandbox,
   network/USB entitlements, Hardened Runtime, a privacy manifest, an asset
   catalog and the AppIcon. This is build scaffolding: the self-contained Swift
