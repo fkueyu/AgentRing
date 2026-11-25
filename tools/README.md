@@ -1,5 +1,7 @@
 # Tools
 
+[中文](README.zh.md) · [English](README.md)
+
 Small local debugging helpers; not part of the daemon runtime.
 
 | Tool | Purpose |

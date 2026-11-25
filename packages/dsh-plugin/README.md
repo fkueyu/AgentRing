@@ -1,5 +1,7 @@
 # AgentRing DSH plugin
 
+[中文](README.zh.md) · [English](README.md)
+
 A DeepSeek Harness Host plugin that reports agent lifecycle, tool calls,
 approvals and user questions to the local AgentRing daemon.
 

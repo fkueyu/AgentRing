@@ -1,4 +1,5 @@
 AgentRing 圆盘外壳 V1 试装说明
+English: Printing and Assembly.txt
 
 装好后外径 71.60 mm，总高 15.42 mm。适配实测直径 64.00 mm、板厚 1.60 mm 的灯板，灯珠顶到 USB-C 金属壳底 6.50 mm。
 

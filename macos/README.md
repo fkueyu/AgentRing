@@ -1,5 +1,7 @@
 # AgentRing for macOS
 
+[中文](README.zh.md) · [English](README.md)
+
 A native SwiftUI menu-bar app. It is a view over the local daemon: no agent
 internals are read directly, and the preview uses the same `/frame` bytes as the
 ESP32.
@@ -12,7 +14,7 @@ open /Applications/AgentRing.app
 
 Requires macOS 14+, the Xcode command line tools, and Python 3 + Pillow for
 the icon pipeline. The app version comes from the root `VERSION` file at build
-time; the sidebar and **通用 → 关于** show the app and daemon versions separately. The app is built with
+time; the sidebar and **General → About** show the app and daemon versions separately. The app is built with
 Swift Package Manager (`Package.swift`) and packaged/ad-hoc signed by
 `build.sh`.
 
@@ -41,6 +43,6 @@ The app is `LSUIElement`: no Dock icon. If no menu-bar icon appears, allow
 AgentRing in macOS “Menu Bar” settings and in Thaw/Bartender/Ice.
 
 The interface follows the system language by default and can be switched in
-**通用 → 语言**. Static copy is keyed by the Chinese source string in the two
+**General → Language**. Static copy is keyed by the Chinese source string in the two
 `.lproj` files; runtime copy (counts, daemon labels, statuses) goes through
 `L10n`. New visible strings need both the Chinese key and the English value.

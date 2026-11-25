@@ -1,5 +1,7 @@
 # Architecture
 
+[中文](architecture.zh.md) · [English](architecture.md)
+
 AgentRing has one job: turn local agent activity into a small, legible light
 signal. Everything is optimized for that path being short, observable and
 testable.
@@ -68,8 +70,8 @@ Priority for the ring is `waiting > error > editing > tool > thinking > done > i
 
 - **Layout**: `split` divides the ring between the top N sessions, `focus` shows
   the most urgent one, `rotate` cycles one at a time.
-- **Effects**: `pulse`, `breathe`, `solid`, `comet` (巡游), `blink`, `flash`
-  and `patches` (雨滴). The comet uses a sub-LED Gaussian head and smoothstep
+- **Effects**: `pulse`, `breathe`, `solid`, `comet` (Orbit), `blink`, `flash`
+  and `patches` (Raindrops). The comet uses a sub-LED Gaussian head and smoothstep
   tail so the peak slides between LEDs instead of snapping.
 - **Colour**: one accent palette decides the running look — identity palettes
   (`state`, `source`), curated ramps spread around the ring, or the rainbow hue

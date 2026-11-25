@@ -1,5 +1,7 @@
 # Contributing to AgentRing
 
+[中文](CONTRIBUTING.zh.md) · [English](CONTRIBUTING.md)
+
 Thanks for taking the time to improve AgentRing. This project has four moving
 parts; keep changes scoped so it stays easy to review and test.
 
@@ -64,7 +66,7 @@ node scripts/install-app.mjs
   `packages/dsh-plugin/test/`). Add a regression test for every state-machine,
   config, renderer, source-detection or installer fix.
 - App: `swift build -c release --package-path macos` and a manual pass through
-  **预览 / 灯光 / 来源 / 通用**.
+  **Preview / Lighting / Sources / General**.
 - Firmware: `arduino-cli compile --fqbn "esp32:esp32:esp32c3:CDCOnBoot=cdc,PartitionScheme=huge_app" firmware/esp32/agentring_ring`
   and, when hardware is available, a flash + serial check. CI does the compile
   with ESP32 core 3.3.12.
@@ -114,8 +116,10 @@ listed in `BRIDGE_INSTALLERS` in `daemon/src/sources.mjs`.
   sidebar is current; the `AGENTRING_TAB`, `AGENTRING_BASE`,
   `AGENTRING_LANGUAGE` and `AGENTRING_WINDOW_HEIGHT` hooks are documented in
   [Development](docs/development.md).
-- The root README is Chinese; `docs/` is English. Keep that split unless a
-  documentation overhaul is explicitly scoped.
+- Every explanatory document has an English and a Chinese version:
+  `README.md` / `README.en.md`, `docs/*.md` / `docs/*.zh.md`, the component
+  READMEs, `CONTRIBUTING`, `SECURITY` and `CODE_OF_CONDUCT`. Update both
+  versions in the same change. `CHANGELOG.md` remains the English release log.
 
 ## Firmware changes
 
@@ -131,7 +135,7 @@ listed in `BRIDGE_INSTALLERS` in `daemon/src/sources.mjs`.
    section, update the supported-version table in `SECURITY.md`, then run
    `npm run version:sync`.
 2. `npm test`, `npm run version:check`, and a release build of the app.
-3. Install the app and confirm **通用 → 关于** shows the new app and daemon
+3. Install the app and confirm **General → About** shows the new app and daemon
    versions; flash firmware if its protocol changed.
 4. Refresh screenshots and every doc that mentions the version or the UI.
 5. Tag the release (`vX.Y.Z`) and attach artifacts only if you are distributing

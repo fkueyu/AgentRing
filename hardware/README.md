@@ -1,5 +1,7 @@
 # Enclosure
 
+[中文](README.zh.md) · [English](README.md)
+
 A printable enclosure for the 24-LED ring and its ESP32-C3 board.
 
 | Version | Path | USB-C opening |
@@ -9,7 +11,7 @@ A printable enclosure for the 24-LED ring and its ESP32-C3 board.
 
 Each folder contains the three print-ready STLs (base, diffuser, center), the
 Blender source (`*.blend`), a preview render, a zipped bundle and print/assembly
-notes (`打印与装配.txt`, Chinese). `build_enclosure.py` regenerates the model in
+notes (`打印与装配.txt` in Chinese, `Printing and Assembly.txt` in English). `build_enclosure.py` regenerates the model in
 Blender.
 
 The diffuser should be printed in a translucent material; the base and center

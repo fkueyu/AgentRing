@@ -1,0 +1,40 @@
+AgentRing round enclosure V1 test-fit notes
+中文: 打印与装配.txt
+
+Assembled outer diameter 71.60 mm, total height 15.42 mm. Fits the measured
+64.00 mm diameter, 1.60 mm thick ring board; the top of the LEDs to the bottom
+of the USB-C metal shell is 6.50 mm.
+
+The three STLs are exported in millimetres and in the actual print orientation.
+Import them as separate parts into the slicer and keep 100% scale.
+01_Base is the base, 03_Center the centre cap; either can be dark PLA or PETG.
+02_Diffuser is the one-piece translucent ring; use a milky translucent
+filament. Ordinary opaque white filament may block the light.
+Start the first print with a 0.4 mm nozzle and 0.20 mm layer height. The base
+bottom faces the bed; the visible faces of the diffuser and centre cap face the
+bed. The top of the USB-C opening in the base needs a bridge of about 14 mm;
+check it in the slicer preview.
+
+Test-fit order
+1. Print the base first. Tilt the bare board's USB-C end slightly into the side
+   opening, then let the board sit on the ring ledge with the LEDs facing up.
+   Check that the board is stable, then plug in a known-good cable all the way.
+2. Fit the diffuser; align its side key with the groove in the base. Make sure
+   the three small stops sit between LEDs. Press gently around the
+   circumference. If it touches an LED or needs force, take it out and check.
+3. Align the small key on the centre cap with the diffuser's inner groove and
+   press it in. The two small holes are for RST and BOOT; use a thin plastic
+   rod. The seam in the base has a pry notch for opening.
+
+Design clearances
+PCB seat diameter 64.60 mm; USB-C side opening 14.0 × 6.2 mm; two button holes
+2.20 mm diameter.
+The measured 6.50 mm total thickness is split in the model as 1.70 mm LED
+height, 1.60 mm board thickness and 3.20 mm USB-C height. The protrusions on
+each side, button coordinates and LED positions are estimated from photos. The
+distance from the LEDs to the inner top of the diffuser is about 4.11 mm.
+Confirm the snap fit, plug-shell clearance and light diffusion on the physical
+part.
+
+The Blender project contains the assembly scene and an exploded preview scene.
+The PCB and electronics are for alignment only. Print the three separate STLs.

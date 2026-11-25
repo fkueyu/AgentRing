@@ -2,13 +2,15 @@
 
 # AgentRing
 
+[中文](README.md) · [English](README.en.md) · [官网](https://ainx.ink/agentring/)
+
 把本机 AI agent 的实时状态变成一圈 24 颗 WS2812B 灯珠的视觉信号。
 
 AgentRing 是一个本地优先的小工具：一个常驻 daemon 收集 Codex / DeepSeek Harness /
 Claude Code 的状态，在电脑侧完成布局、动效和功耗计算，再把 72 字节的 RGB 帧交给
 ESP32-C3 灯环和控制它的 macOS 菜单栏 App。
 
-当前版本 **0.4.0** · [部署指南](docs/installation.md) · [使用说明](docs/usage.md) · [更新日志](CHANGELOG.md)
+当前版本 **0.4.0** · [官网](https://ainx.ink/agentring/) · [部署指南](docs/installation.zh.md) · [使用说明](docs/usage.zh.md) · [更新日志](CHANGELOG.md)
 
 ![预览](docs/images/settings-preview.png)
 
@@ -57,7 +59,7 @@ Codex ──hooks──────┘         │   (可选，默认未装)
 
 macOS 14+、Node.js 22+、Xcode 命令行工具；App 图标需要 Python 3 + Pillow
 （`python3 -m pip install pillow`）；刷固件需要 Arduino IDE 2.x + esp32 core 3.x。
-硬件清单见[硬件说明](docs/hardware.md)。
+硬件清单见[硬件说明](docs/hardware.zh.md)。
 
 ```sh
 git clone <repo-url> AgentRing
@@ -130,19 +132,19 @@ Mac，必要时在 `config.h` 里设置静态 `AGENTRING_HOST`。
 - 灯光 → 状态里点一个效果，灯环同步显示同一帧；
 - `curl /health` 的 `streamClients` 为 1、`streamFrames` 持续增长。
 
-完整的安装、升级、卸载和排错见[部署指南](docs/installation.md)；界面和日常操作见
-[使用说明](docs/usage.md)。
+完整的安装、升级、卸载和排错见[部署指南](docs/installation.zh.md)；界面和日常操作见
+[使用说明](docs/usage.zh.md)。
 
 ## 文档
 
 | 文档 | 内容 |
 |---|---|
-| [部署指南](docs/installation.md) | 环境、daemon/App/固件、agent 接入、升级与卸载、排错 |
-| [使用说明](docs/usage.md) | 四个页面、状态与配色、预览、来源、快捷键、常见问题 |
-| [架构](docs/architecture.md) | 数据流、状态机、渲染、插件、App |
-| [配置与 API](docs/configuration.md) | 配置项、配色/动效、来源检测、HTTP 接口 |
-| [硬件](docs/hardware.md) | 接线、供电、配网、烧录、排错 |
-| [开发](docs/development.md) | 目录约定、测试、构建、插件热重载、发布清单 |
+| [部署指南](docs/installation.zh.md) | 环境、daemon/App/固件、agent 接入、升级与卸载、排错 |
+| [使用说明](docs/usage.zh.md) | 四个页面、状态与配色、预览、来源、快捷键、常见问题 |
+| [架构](docs/architecture.zh.md) | 数据流、状态机、渲染、插件、App |
+| [配置与 API](docs/configuration.zh.md) | 配置项、配色/动效、来源检测、HTTP 接口 |
+| [硬件](docs/hardware.zh.md) | 接线、供电、配网、烧录、排错 |
+| [开发](docs/development.zh.md) | 目录约定、测试、构建、插件热重载、发布清单 |
 
 ## 状态与限制
 
@@ -162,7 +164,8 @@ npm run version:check     # VERSION 与各 package.json 一致
 swift build -c release --package-path macos
 ```
 
-提交前请读 [CONTRIBUTING.md](CONTRIBUTING.md)。安全问题见 [SECURITY.md](SECURITY.md)。
+提交前请读 [CONTRIBUTING.zh.md](CONTRIBUTING.zh.md)。安全问题见 [SECURITY.zh.md](SECURITY.zh.md)。
+参与讨论请遵守 [CODE_OF_CONDUCT.zh.md](CODE_OF_CONDUCT.zh.md)。
 
 ## License
 

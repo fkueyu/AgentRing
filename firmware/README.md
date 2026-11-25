@@ -1,5 +1,7 @@
 # Firmware
 
+[中文](README.zh.md) · [English](README.md)
+
 `esp32/agentring_ring/` is an Arduino sketch for an ESP32-C3 driving a
 24-LED WS2812B ring. The sketch is split into small modules:
 

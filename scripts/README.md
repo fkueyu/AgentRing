@@ -1,5 +1,7 @@
 # Scripts
 
+[中文](README.zh.md) · [English](README.md)
+
 User-level install helpers for macOS. All scripts are idempotent and safe to
 re-run after moving the checkout.
 
@@ -25,5 +27,5 @@ npm run install:codex     # or uninstall:codex
 npm run install:claude    # or uninstall:claude
 ```
 
-The app's 来源 page can run the same installers with one click; the daemon only
+The app's Sources page can run the same installers with one click; the daemon only
 executes the scripts listed in `BRIDGE_INSTALLERS` in `daemon/src/sources.mjs`.

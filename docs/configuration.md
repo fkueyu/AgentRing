@@ -1,5 +1,7 @@
 # Configuration and HTTP API
 
+[中文](configuration.zh.md) · [English](configuration.md)
+
 The daemon owns all display behaviour. It stores its state under
 `~/.agentring/`:
 
@@ -57,8 +59,8 @@ heuristic and no theme that rewrites unrelated fields.
 | `doneHoldSeconds` | 2–30 | 8 |
 | `staleMinutes` | 2–60 | 10 |
 
-`comet` is shown as 巡游 and `patches` as 雨滴; `flash` and `blink` both read as
-闪烁. `solid` (常亮) is kept only for done/error. Effects removed from a state
+`comet` is shown as Orbit and `patches` as Raindrops; `flash` and `blink` both read as
+Flash. `solid` (Steady) is kept only for done/error. Effects removed from a state
 migrate to that state's current default on load.
 
 Each state has its own `speeds.<state>` multiplier, edited per row in the app's
@@ -69,7 +71,7 @@ per-state speeds from it once.
 
 ### Palettes
 
-![灯光 → 状态](images/settings-states.png)
+![Lighting → States](images/settings-states.png)
 
 One colour vocabulary serves the running ring and the idle ring. A palette is a
 **value**, not a macro: selecting one never rewrites colours, speeds or any
@@ -77,15 +79,15 @@ other field.
 
 | Id | Label | Kind | Used by | Notes |
 |---|---|---|---|---|
-| `state` | 状态色 | identity | accent | Six state wells (`stateColors`) |
-| `source` | 来源色 | identity | accent | One well per tool (`sources.<name>.color`) |
-| `mono` | 单色 | identity | standby | The `standbyColor` well |
-| `neon` | 霓虹 | ramp | both | Cyan → violet → magenta |
-| `sunset` | 日落 | ramp | both | Rose → orange → amber |
-| `mint` | 薄荷 | ramp | both | Teal → sky → mint |
-| `aurora` | 极光 | ramp | both | Teal → sky → indigo → purple |
-| `ember` | 暖光 | ramp | both | Cream → amber → coral |
-| `rainbow` | 彩虹 | hue | both | Hue wheel, drifting with time |
+| `state` | State colours | identity | accent | Six state wells (`stateColors`) |
+| `source` | Source colours | identity | accent | One well per tool (`sources.<name>.color`) |
+| `mono` | Mono | identity | standby | The `standbyColor` well |
+| `neon` | Neon | ramp | both | Cyan → violet → magenta |
+| `sunset` | Sunset | ramp | both | Rose → orange → amber |
+| `mint` | Mint | ramp | both | Teal → sky → mint |
+| `aurora` | Aurora | ramp | both | Teal → sky → indigo → purple |
+| `ember` | Ember | ramp | both | Cream → amber → coral |
+| `rainbow` | Rainbow | hue | both | Hue wheel, drifting with time |
 
 **The one rule:** waiting / done / error always use their `stateColors` entry,
 whatever the accent is. The accent only decides the “busy” look:
@@ -140,7 +142,7 @@ modified until the first start of the v3 daemon, which rewrites it in place.
 
 ## Source detection
 
-![来源](images/settings-sources.png)
+![Sources](images/settings-sources.png)
 
 `GET /sources` answers two questions per agent tool: is the tool installed, and
 is AgentRing connected? Detection is advisory and filesystem-first: it reads
@@ -206,9 +208,9 @@ registering one probe (and, optionally, one installer) in
 
 ## Effect previews
 
-![效果预览](images/settings-preview-sync.png)
+![Effect preview](images/settings-preview-sync.png)
 
-The 状态 page auditions one state/effect at a time. `POST /preview` with
+The States page auditions one state/effect at a time. `POST /preview` with
 `{state, effect, ttlMs}` stores a temporary override in the daemon: `/frame`,
 the browser preview and the raw TCP stream all serve the synthetic frame, so the
 physical ring shows exactly what the app does. The default TTL is 45 s (clamped

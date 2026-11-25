@@ -1,5 +1,7 @@
 # Architecture decisions
 
+[中文](decisions.zh.md) · [English](decisions.md)
+
 Small, local tool: prefer the simplest design that keeps the ring responsive and
 the API surface boring. These notes record the decisions that would otherwise be
 re-litigated.
@@ -120,7 +122,7 @@ model.
 v2 had four overlapping colour systems: a theme preset (source colours + colour
 mode + gradient target), a colour mode (solid/gradient/rainbow), a solid colour
 source (state/source), and standby palettes with their own vocabulary. Only some
-combinations reached the LEDs — with 单色 / 按状态, picking 薄荷 changed nothing
+combinations reached the LEDs — with Mono / by state, picking Mint changed nothing
 visible. Two bugs hid the rest: the renderer passed a single hex string to
 `colorFor`, which expects a map, so **every custom source colour was ignored**;
 and the app's motion page showed state-coloured dots even when the ring was
@@ -139,7 +141,7 @@ one never rewrites another field. Themes, `colorMode`, `gradientTo`,
 following what was visible (see [Configuration](configuration.md#migration-to-v3)).
 
 The app goes from five lighting sections to four. Colour and motion now share
-the **状态** section: one accent picker with only the colour wells that the
+the **States** section: one accent picker with only the colour wells that the
 renderer actually reads, then one row per state with its effect and speed, and
 finally the source list. The left rail summarises the accent and the attention
 colours.

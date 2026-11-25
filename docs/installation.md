@@ -1,5 +1,7 @@
 # Installation and deployment
 
+[中文](installation.zh.md) · [English](installation.md)
+
 AgentRing has four pieces. You can install only the first one and use the
 browser preview, but the ring needs all four.
 
@@ -92,15 +94,15 @@ window opens with `⌘,` or from the menu-bar menu.
 The build is ad-hoc signed. That is fine for a locally built app; distributing a
 binary to other Macs needs Developer ID signing and notarization.
 
-Verify: the sidebar shows “守护进程已连接”, and **预览** draws the ring. The
-version is shown at the bottom of the sidebar and in **通用 → 关于** (app and
+Verify: the sidebar shows “Daemon connected”, and **Preview** draws the ring. The
+version is shown at the bottom of the sidebar and in **General → About** (app and
 daemon versions separately).
 
 ## 3. Connect agents
 
-![来源页](images/settings-sources.png)
+![Sources page](images/settings-sources.png)
 
-Open the **来源** page. It detects installed tools and their AgentRing bridge,
+Open the **Sources** page. It detects installed tools and their AgentRing bridge,
 and can install the bridge for Codex and Claude Code with one click.
 
 ### DeepSeek Harness
@@ -112,7 +114,7 @@ dsh plugin --profile desktop add "$PWD/packages/dsh-plugin"
 ```
 
 Restart DSH, or toggle the bundle off/on in **Plugins**. The Sources page should
-report **已接入** for DeepSeek Harness. Events can be verified with:
+report **Wired** for DeepSeek Harness. Events can be verified with:
 
 ```sh
 grep -c 'ingest dsh/' ~/.agentring/daemon.log
@@ -124,7 +126,7 @@ the detection page lists every profile that has the bundle.
 ### Codex
 
 If ChatGPT/Codex is installed but its hooks are missing, the Sources page shows
-**未接入** and a **一键接入** button. It merges the seven AgentRing hook events into `~/.codex/hooks.json`,
+**Not wired** and a **Connect** button. It merges the seven AgentRing hook events into `~/.codex/hooks.json`,
 backs up the file first and leaves other hooks alone. The same command is
 available from a terminal:
 
@@ -148,7 +150,7 @@ npm run uninstall:claude
 
 The installer merges into `~/.claude/settings.json`, keeps existing hooks
 (including other integrations such as CodeIsland), writes a timestamped backup
-and is idempotent. The Sources page offers the same action as **一键接入**. Claude
+and is idempotent. The Sources page offers the same action as **Connect**. Claude
 Code may ask once to trust the new hooks.
 
 Claude Code reports start/running/waiting/done and failed turns through
@@ -216,15 +218,15 @@ curl -s http://127.0.0.1:7801/health | python3 -m json.tool
 # streamClients: 1, streamFrames grows ~30/s, streamLastFrameFrom = ring IP
 ```
 
-The app's **通用 → 连接** card shows the ring IP and fps.
+The app's **General → Connection** card shows the ring IP and fps.
 
 ## 5. Verification checklist
 
 - [ ] `curl /health` reports `ok: true`, a version and a growing `streamFrames`.
-- [ ] The sidebar shows “守护进程已连接” and “灯环在线”.
-- [ ] **来源** shows at least one **已接入** for the agents you use.
-- [ ] **预览** lists sessions and the ring shows their colours/motion.
-- [ ] **灯光 → 状态** previews an effect on both the screen and the physical ring.
+- [ ] The sidebar shows “Daemon connected” and “Ring online”.
+- [ ] **Sources** shows at least one **Wired** for the agents you use.
+- [ ] **Preview** lists sessions and the ring shows their colours/motion.
+- [ ] **Lighting → States** previews an effect on both the screen and the physical ring.
 - [ ] The menu-bar item shows the active count and attention icons.
 
 ## 6. Upgrade
@@ -265,10 +267,10 @@ and reflash or erase the board.
 | Symptom | Check |
 |---|---|
 | Daemon not running | `launchctl print gui/$(id -u)/com.agentring.daemon` and `tail -50 ~/.agentring/daemon.log` |
-| App shows “守护进程未连接” | `curl http://127.0.0.1:7801/health`; another process may own 7801 |
+| App shows “Daemon offline” | `curl http://127.0.0.1:7801/health`; another process may own 7801 |
 | Ring dark | 5 V supply, common ground, GPIO10, 330 Ω, `info` over serial |
 | Ring shows the blue offline pattern | `/health` `streamClients` should be 1; allow TCP 7802 and mDNS through the Mac firewall; ring and Mac on the same subnet |
-| Codex/Claude shows 未接入 after install | Re-run detection; confirm the hooks file contains `.agentring/hook.sh`; check the tool's hook-trust prompt |
+| Codex/Claude shows Not wired after install | Re-run detection; confirm the hooks file contains `.agentring/hook.sh`; check the tool's hook-trust prompt |
 | Hooks fire but the ring stays idle | `tail ~/.agentring/hook.log` for the shim log and HTTP status; ensure the daemon is listening on 7801 |
 | Gatekeeper blocks the app | Right-click → Open, or `xattr -dr com.apple.quarantine /Applications/AgentRing.app` |
 | Ring stuck on a preview | Close the settings window or wait 45 s; `curl -X DELETE http://127.0.0.1:7801/preview` |

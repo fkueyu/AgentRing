@@ -1,5 +1,7 @@
 # Documentation
 
+[中文](README.zh.md) · [English](README.md)
+
 | Document | What it covers |
 |---|---|
 | [Installation](installation.md) | Requirements, daemon/app/firmware deployment, agent hookup, upgrade, uninstall and troubleshooting |
@@ -10,6 +12,8 @@
 | [Development](development.md) | Local setup, tests, build, plugin reload and the release checklist |
 | [Decisions](decisions.md) | Why polling, the raw TCP frame stream, loopback-only APIs, one palette vocabulary and manifest-based agent detection |
 
-Start with the root [README](../README.md) for the quick start, then follow
+Screenshots use the Chinese interface; switch the app to English in **General → Language** if you prefer English labels.
+
+Start with the root [README](../README.en.md) for the quick start, then follow
 [Installation](installation.md) for a full deployment and [Usage](usage.md) for
 the day-to-day interface.

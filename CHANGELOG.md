@@ -6,6 +6,13 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Documentation is now bilingual: the root README, every guide under `docs/`,
+  the component READMEs, the enclosure print/assembly notes, `CONTRIBUTING`,
+  `SECURITY` and `CODE_OF_CONDUCT` have Chinese and English versions. The
+  official site is linked from the README and the repository homepage.
+
 ## [0.4.0] - 2026-11-25
 
 A bilingual interface and a more comfortable sidebar header.

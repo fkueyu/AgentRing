@@ -1,5 +1,7 @@
 # AgentRing bridge
 
+[中文](DETAIL.zh.md) · [English](DETAIL.md)
+
 Reports the lifecycle of every live DeepSeek Harness agent to the AgentRing daemon so a
 24-LED WS2812B ring can show what the machine is doing at a glance.
 

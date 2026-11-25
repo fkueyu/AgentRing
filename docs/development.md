@@ -1,5 +1,7 @@
 # Development
 
+[中文](development.zh.md) · [English](development.md)
+
 ## Prerequisites
 
 - macOS 14+ (the app and LaunchAgent helpers are macOS-specific).
@@ -142,11 +144,15 @@ update `docs/hardware.md` and `CHANGELOG.md`.
 
 ## Documentation
 
-- `README.md` is the entry point and quick start; keep it in sync with the UI.
-- `docs/installation.md` owns deployment, upgrade, uninstall and setup
-  troubleshooting; `docs/usage.md` owns the interface and daily behaviour.
-- `docs/configuration.md` and the relevant ADR must change with any config field,
-  route or rendering rule.
+- `README.md` (Chinese) and `README.en.md` (English) are the entry points and
+  quick start; keep both in sync with the UI.
+- `docs/installation.md` / `docs/installation.zh.md` own deployment, upgrade,
+  uninstall and setup troubleshooting; `docs/usage.md` / `docs/usage.zh.md` own
+  the interface and daily behaviour.
+- Every explanatory document has an English and Chinese version; update both in
+  the same change. `CHANGELOG.md` remains the English release log.
+- `docs/configuration.md` / `docs/configuration.zh.md` and the relevant ADR must
+  change with any config field, route or rendering rule.
 - Screenshots live in `docs/images/`. Rebuild the app first so the version in the
   sidebar is current, then use the env hooks below for a deterministic capture.
 

@@ -1,5 +1,7 @@
 # AgentRing daemon
 
+[中文](README.zh.md) · [English](README.md)
+
 The local bridge daemon: ingests agent events, keeps one record per session,
 renders the ring and serves the HTTP API on `127.0.0.1:7801`.
 

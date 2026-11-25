@@ -1,5 +1,7 @@
 # Hardware
 
+[中文](hardware.zh.md) · [English](hardware.md)
+
 For end-to-end installation (daemon, app, hooks, provisioning and verification)
 see [Installation](installation.md).
 
