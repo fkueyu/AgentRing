@@ -25,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: swift build -c release --package-path macos
+      - run: swift test --package-path macos/AgentRingCore
       - name: Build the Xcode App Store target
         run: xcodebuild -project macos/AgentRing.xcodeproj -scheme AgentRing -configuration Release CODE_SIGNING_ALLOWED=NO build
 

@@ -9,11 +9,11 @@ import SwiftUI
 /// The preview is deliberately not a second implementation of the ring: layout,
 /// effects, gamma and the power budget all live in the daemon, so what you see
 /// here is exactly what the ESP32 will push to the strip.
+@MainActor
 final class RingFrameView: NSView {
     private let ledCount = 24
     private var dots: [CALayer] = []
-    private var timer: Timer?
-    private var inFlight = false
+    private var loop: Task<Void, Never>?
     /// Bumped when the URL changes so a frame from the previous endpoint is
     /// dropped instead of flashing after an effect-preview switch.
     private var generation = 0
@@ -46,11 +46,6 @@ final class RingFrameView: NSView {
             dots.append(dot)
         }
 
-        let timer = Timer(timeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
-            self?.tick()
-        }
-        RunLoop.main.add(timer, forMode: .common)
-        self.timer = timer
     }
 
     required init?(coder: NSCoder) {
@@ -58,7 +53,17 @@ final class RingFrameView: NSView {
     }
 
     deinit {
-        timer?.invalidate()
+        loop?.cancel()
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window == nil {
+            loop?.cancel()
+            loop = nil
+        } else {
+            startLoop()
+        }
     }
 
     override func layout() {
@@ -82,7 +87,7 @@ final class RingFrameView: NSView {
             dot.shadowRadius = dotSize * 0.75
         }
         CATransaction.commit()
-        tick()
+        Task { await tick() }
     }
 
     private var isDark: Bool {
@@ -99,14 +104,23 @@ final class RingFrameView: NSView {
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         needsLayout = true
-        tick()
+        Task { await tick() }
     }
 
     // MARK: - Frame loop
 
-    private func tick() {
-        guard window?.isVisible == true, !inFlight else { return }
-        inFlight = true
+    private func startLoop() {
+        loop?.cancel()
+        loop = Task { [weak self] in
+            while !Task.isCancelled {
+                await self?.tick()
+                try? await Task.sleep(nanoseconds: 33_000_000)
+            }
+        }
+    }
+
+    private func tick() async {
+        guard window?.isVisible == true else { return }
         let requestedGeneration = generation
         let url = frameURL
 
@@ -114,16 +128,13 @@ final class RingFrameView: NSView {
         request.timeoutInterval = 1
         request.cachePolicy = .reloadIgnoringLocalCacheData
 
-        AgentRingSession.shared.dataTask(with: request) { [weak self] data, _, _ in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.inFlight = false
-                guard requestedGeneration == self.generation else { return }
-                if let data, data.count >= self.ledCount * 3 {
-                    self.apply(data)
-                }
-            }
-        }.resume()
+        guard let (data, _) = try? await AgentRingSession.shared.data(for: request) else {
+            return
+        }
+        guard requestedGeneration == generation, !Task.isCancelled else { return }
+        if data.count >= ledCount * 3 {
+            apply(data)
+        }
     }
 
     private func apply(_ data: Data) {

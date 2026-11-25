@@ -49,6 +49,7 @@ For the app:
 
 ```sh
 swift build -c release --package-path macos
+swift test --package-path macos/AgentRingCore
 ./macos/build.sh
 ```
 

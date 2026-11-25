@@ -11,7 +11,8 @@ cp -R dist/AgentRing.app /Applications/
 open /Applications/AgentRing.app
 ```
 
-需要 macOS 14+、Xcode 命令行工具，以及图标流水线用的 Python 3 + Pillow。App 版本在
+需要 macOS 14+、Xcode 27 / Swift 6，以及图标流水线用的 Python 3 + Pillow。App 和
+`AgentRingCore` 都使用 Swift 6 语言模式。App 版本在
 构建时取自根目录的 `VERSION` 文件；侧边栏和 **通用 → 关于** 分别显示 App 与守护进程
 版本。App 用 Swift Package Manager（`Package.swift`）构建，由 `build.sh` 打包并做
 ad-hoc 签名。
@@ -29,7 +30,9 @@ xcodebuild -project AgentRing.xcodeproj -scheme AgentRing \
 ```
 
 该 target 已带 App Sandbox + Hardened Runtime、网络 client/server 与 USB entitlement、
-AppIcon asset catalog、隐私清单和两套本地化。`build.sh` 仍用于直接分发构建。
+AppIcon asset catalog、隐私清单和两套本地化。`build.sh` 仍用于直接分发构建。App 和
+`AgentRingCore` 使用 Swift 6 语言模式；测试命令为
+`swift test --package-path macos/AgentRingCore`。
 
 **还不能提交审核：** 这只是 App Store 的工程脚手架。自包含 Swift daemon 和 USB 固件
 刷写还没有移植；当前 App 仍连接 Node daemon 并使用 `launchctl`，后者在 App Store 沙盒里
@@ -46,6 +49,7 @@ AppIcon asset catalog、隐私清单和两套本地化。`build.sh` 仍用于直
 | `Sources/AgentRing/LightingPanels.swift` | 显示 / 待机 / 布局 / 状态面板；会话配色 + 每个状态的动效/速度；预览通过 `POST /preview` 镜像 |
 | `Sources/AgentRing/SourcesTab.swift` | 每个 agent 的安装/连接状态（通过 `/sources`）、一键接入 hook、上环开关和色块 |
 | `Sources/AgentRing/GeneralTab.swift` | 守护进程/灯环诊断与维护 |
+| `AgentRingCore/` | daemon 状态模型的 Swift 6 移植；第一块是带测试的每会话状态机 |
 | `Sources/AgentRing/SettingsControls.swift` | 会话行、徽标和提醒标签 |
 | `Sources/AgentRing/RingLayerView.swift` | 由 `/frame` 以 30 fps 驱动的 24 个 CALayer（预览也是守护进程状态） |
 | `Sources/AgentRing/AgentRingSession.swift` | 临时 URLSession；不产生 CFNetwork 休眠断言 |

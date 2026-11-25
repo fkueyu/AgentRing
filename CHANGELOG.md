@@ -8,6 +8,9 @@ All notable changes are documented here. The format follows
 
 ### Added
 
+- `AgentRingCore`, a Swift 6 port of the daemon state model. The first slice is
+  the per-session state machine with tests for the done hold, stale fallback,
+  session-end grace, out-of-order guards and persistence.
 - Hardware photos of the assembled 24-LED ring and the PCB dimensions under
   `hardware/photos/`, linked from both hardware guides and used on the website.
 - `scripts/build-firmware.mjs` builds the USB app/merged images and publishes a
@@ -20,6 +23,8 @@ All notable changes are documented here. The format follows
 
 ### Changed
 
+- The macOS app, `AgentRingCore` and the Xcode App Store target now use the
+  Swift 6 language mode.
 - Documentation is now bilingual: the root README, every guide under `docs/`,
   the component READMEs, the enclosure print/assembly notes, `CONTRIBUTING`,
   `SECURITY` and `CODE_OF_CONDUCT` have Chinese and English versions. The

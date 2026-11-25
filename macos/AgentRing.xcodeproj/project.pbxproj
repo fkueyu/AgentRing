@@ -23,6 +23,7 @@
 		ABCADB3C6D03FE70E297842E /* PreviewTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE5C968FD669D2A165B53AA /* PreviewTab.swift */; };
 		B0C76652BDFC80C6742B3929 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6B4FA17D81D8AB9A7F971EB3 /* Localizable.strings */; };
 		B15CA94A0D6AA52A2A6AF35B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F02461BEE6F13AD50841FF25 /* PrivacyInfo.xcprivacy */; };
+		BD90AF76592276D5B348C734 /* AgentRingCore in Frameworks */ = {isa = PBXBuildFile; productRef = EF8B6DA12D80CC91F9E829DB /* AgentRingCore */; };
 		CAB960A3C4F6B4F60880756A /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4029129CBE81DEBB5351442A /* MenuBarIcon.swift */; };
 		D14CF85B804466283412EA5F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A55F0A027EED177FF3D79 /* SettingsView.swift */; };
 		D59D53CB72F0CAB4798887FA /* SourcesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF76E35C92BC3B61A5A0B54 /* SourcesTab.swift */; };
@@ -44,6 +45,7 @@
 		5AE0D2A32D88F6BA05612EFA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		64B4DA9577BB1768A90DB36F /* DaemonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonModel.swift; sourceTree = "<group>"; };
 		727CB03D2630B5DF5A6DDB9F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		73DEF4AACFCECDE7A6E9DB70 /* AgentRingCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AgentRingCore; path = AgentRingCore; sourceTree = SOURCE_ROOT; };
 		78D92355AFCC669B9E3DE4BC /* SettingsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsControls.swift; sourceTree = "<group>"; };
 		927C7E179192F0EC6A8CF34B /* MenuBarIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuBarIcon@2x.png"; sourceTree = "<group>"; };
 		A8B232764CF2C7BF700236F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -55,6 +57,17 @@
 		F02461BEE6F13AD50841FF25 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F3C9FED56F09647AEBCDA5FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		15FE2D3F777D3F86F6439A86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD90AF76592276D5B348C734 /* AgentRingCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2F7A990635E0010F5060011B /* Configuration */ = {
@@ -70,10 +83,19 @@
 			children = (
 				F3C9FED56F09647AEBCDA5FE /* Assets.xcassets */,
 				2F7A990635E0010F5060011B /* Configuration */,
+				7276112F5C1AD23B11FC1EEC /* Packages */,
 				B5D40D91EBA1070C97469B68 /* Resources */,
 				E5FEDA17ACC867766C5614C2 /* Sources */,
 				F9E7087E6B48894CD254B675 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		7276112F5C1AD23B11FC1EEC /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				73DEF4AACFCECDE7A6E9DB70 /* AgentRingCore */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		B5D40D91EBA1070C97469B68 /* Resources */ = {
@@ -134,6 +156,7 @@
 			buildPhases = (
 				C5CEDF52057EFB953D3F92BE /* Sources */,
 				0A98BC8D4711A1621D4F7005 /* Resources */,
+				15FE2D3F777D3F86F6439A86 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -141,6 +164,7 @@
 			);
 			name = AgentRing;
 			packageProductDependencies = (
+				EF8B6DA12D80CC91F9E829DB /* AgentRingCore */,
 			);
 			productName = AgentRing;
 			productReference = 22191282587D0D47D78E950F /* AgentRing.app */;
@@ -171,6 +195,9 @@
 			);
 			mainGroup = 58F24715C4323F6A7BBB6BAD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7D3E042BFA4265AE477549F5 /* XCLocalSwiftPackageReference "AgentRingCore" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F9E7087E6B48894CD254B675 /* Products */;
 			projectDirPath = "";
@@ -310,7 +337,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.9;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -396,7 +423,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.9;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -422,6 +449,20 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		7D3E042BFA4265AE477549F5 /* XCLocalSwiftPackageReference "AgentRingCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = AgentRingCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EF8B6DA12D80CC91F9E829DB /* AgentRingCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AgentRingCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6D9B878DEDCB9A45BE091542 /* Project object */;
 }

@@ -12,8 +12,8 @@ cp -R dist/AgentRing.app /Applications/
 open /Applications/AgentRing.app
 ```
 
-Requires macOS 14+, the Xcode command line tools, and Python 3 + Pillow for
-the icon pipeline. The app version comes from the root `VERSION` file at build
+Requires macOS 14+, Xcode 27 / Swift 6, and Python 3 + Pillow for the icon
+pipeline. The app and `AgentRingCore` use the Swift 6 language mode. The app version comes from the root `VERSION` file at build
 time; the sidebar and **General → About** show the app and daemon versions separately. The app is built with
 Swift Package Manager (`Package.swift`) and packaged/ad-hoc signed by
 `build.sh`.
@@ -33,7 +33,9 @@ xcodebuild -project AgentRing.xcodeproj -scheme AgentRing \
 
 The target adds App Sandbox + Hardened Runtime, network/client-server and USB
 entitlements, the app icon asset catalog, the privacy manifest and both
-localizations. `build.sh` remains the direct-download build.
+localizations. `build.sh` remains the direct-download build. The app and
+`AgentRingCore` are Swift 6 language mode; run its tests with
+`swift test --package-path macos/AgentRingCore`.
 
 **Not submission-ready yet:** this target is scaffolding for the App Store. The
 self-contained Swift daemon and the USB firmware flasher still need to be
@@ -51,6 +53,7 @@ App Store sandbox does not allow.
 | `Sources/AgentRing/LightingPanels.swift` | Display / standby / layout / states panels; accent palette + per-state effect/speed; previews are mirrored through `POST /preview` |
 | `Sources/AgentRing/SourcesTab.swift` | Install/connection status per agent (via `/sources`), one-click hook installers, on-ring toggles and colour wells |
 | `Sources/AgentRing/GeneralTab.swift` | Daemon/ring diagnostics and maintenance |
+| `AgentRingCore/` | Swift 6 port of the daemon state model; first slice is the per-session state machine with tests |
 | `Sources/AgentRing/SettingsControls.swift` | Session rows, badges and attention chips |
 | `Sources/AgentRing/RingLayerView.swift` | 24 CALayers driven by `/frame` at 30 fps (previews are daemon state) |
 | `Sources/AgentRing/AgentRingSession.swift` | Ephemeral URLSession; no CFNetwork sleep assertions |
