@@ -75,11 +75,11 @@ struct SettingsCard<Content: View>: View {
         VStack(alignment: .leading, spacing: 0) {
             if let title {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Text(title)
+                    Text(LocalizedStringKey(title))
                         .font(.system(size: 13, weight: .semibold))
                     Spacer(minLength: 8)
                     if let detail {
-                        Text(detail)
+                        Text(LocalizedStringKey(detail))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -133,9 +133,9 @@ struct PageHeader<Trailing: View>: View {
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             VStack(alignment: .leading, spacing: 3) {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.system(size: 21, weight: .semibold))
-                Text(subtitle)
+                Text(LocalizedStringKey(subtitle))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -167,7 +167,7 @@ struct StatusPill: View {
                 .fill(color)
                 .frame(width: 6, height: 6)
                 .shadow(color: color.opacity(0.5), radius: 2)
-            Text(text)
+            Text(LocalizedStringKey(text))
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.secondary)
         }
@@ -196,10 +196,10 @@ struct SettingRow<Accessory: View>: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.callout)
                 if let caption {
-                    Text(caption)
+                    Text(LocalizedStringKey(caption))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -240,7 +240,7 @@ struct SliderRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.callout)
                 Spacer(minLength: 8)
                 Text(display)
@@ -258,7 +258,7 @@ struct SliderRow: View {
                 Slider(value: $value, in: range)
             }
             if let caption {
-                Text(caption)
+                Text(LocalizedStringKey(caption))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -274,11 +274,11 @@ struct FactRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Spacer(minLength: 8)
-            Text(value)
+            Text(LocalizedStringKey(value))
                 .font(.caption.monospacedDigit())
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.trailing)
@@ -313,11 +313,11 @@ struct ChoiceTile: View {
                             .transition(.opacity.combined(with: .scale))
                     }
                 }
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.callout.weight(.medium))
                     .foregroundStyle(.primary)
                     .lineLimit(1)
-                Text(caption)
+                Text(LocalizedStringKey(caption))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
@@ -368,7 +368,7 @@ struct ColorRow: View {
                 .fill(color)
                 .frame(width: 9, height: 9)
                 .shadow(color: color.opacity(0.35), radius: 2)
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.callout)
                 .lineLimit(1)
             Spacer(minLength: 6)
@@ -405,7 +405,7 @@ struct RingStage: View {
         }
         .frame(width: size + 4, height: size + 4)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Agent 状态环")
+        .accessibilityLabel(Text("Agent 状态环"))
     }
 }
 
@@ -439,7 +439,7 @@ struct LayoutStrip: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("布局示意：\(segments) 段，段间空 \(gapLeds) 颗灯")
+        .accessibilityLabel(Text(L10n.segmentSummary(max: segments, gap: gapLeds)))
     }
 
     private struct Pixel {

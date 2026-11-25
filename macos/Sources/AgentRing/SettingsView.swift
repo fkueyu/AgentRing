@@ -118,7 +118,7 @@ private struct Sidebar: View {
                         selection = item
                     }
                     .keyboardShortcut(item.shortcut, modifiers: .command)
-                    .help("\(item.title)（\(item.shortcutHint)）")
+                    .help("\(L10n.text(item.title))（\(item.shortcutHint)）")
                 }
             }
             .padding(.horizontal, 14)
@@ -166,9 +166,9 @@ private struct Sidebar: View {
     }
 
     private var ringText: String {
-        guard model.connected else { return "灯环状态未知" }
-        guard model.ringConnected else { return "灯环未连接" }
-        return model.ringFPS > 0 ? "灯环在线 · \(model.ringFPS) fps" : "灯环在线"
+        guard model.connected else { return L10n.text("灯环状态未知") }
+        guard model.ringConnected else { return L10n.text("灯环未连接") }
+        return L10n.ringStatus(model.ringFPS)
     }
 
     private func badge(for tab: SettingsView.Tab) -> SidebarItem.Badge? {
@@ -188,7 +188,7 @@ private struct Sidebar: View {
                 .fill(color)
                 .frame(width: 6, height: 6)
                 .shadow(color: color.opacity(0.5), radius: 2)
-            Text(text)
+            Text(LocalizedStringKey(text))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -217,7 +217,7 @@ private struct SidebarItem: View {
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(selected ? Color.accentColor : Color.secondary)
                     .frame(width: 18)
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.callout)
                     .foregroundStyle(selected ? Color.primary : Color.secondary)
                 Spacer(minLength: 6)

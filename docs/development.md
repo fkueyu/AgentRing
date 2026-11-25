@@ -21,6 +21,16 @@ npm start
 The daemon is dependency-free: Node's built-in `http`, `fs` and `node:test` are
 enough. The app is a Swift Package under `macos/`.
 
+## Localization
+
+The app ships Simplified Chinese and English. Static copy lives in
+`macos/Resources/{en,zh-Hans}.lproj/Localizable.strings`, keyed by the Chinese
+source string; `build.sh` copies both `.lproj` folders into the app bundle.
+Strings assembled at runtime (counts, statuses, daemon-provided effect labels)
+go through `L10n` in `Sources/AgentRing/Localization.swift`. When adding copy,
+update both `.strings` files and run the app with `AGENTRING_LANGUAGE=en` to
+check the English layout.
+
 ## Tests
 
 ```sh
@@ -84,8 +94,10 @@ Swift files live in `macos/Sources/AgentRing/`:
 
 For screenshots and specific-page diagnosis, launch the app with
 `AGENTRING_TAB=options` (or `sources`), `AGENTRING_LIGHTING_SECTION=states` and (optionally)
-`AGENTRING_MOTION_PREVIEW=thinking:breathe`. `AGENTRING_WINDOW_HEIGHT=1150`
-makes a long page fit one screenshot, and `AGENTRING_BASE=http://127.0.0.1:7803`
+`AGENTRING_MOTION_PREVIEW=thinking:breathe`. `AGENTRING_LANGUAGE=en` previews the
+English interface without changing the saved preference, and
+`AGENTRING_WINDOW_HEIGHT=1150` makes a long page fit one screenshot.
+`AGENTRING_BASE=http://127.0.0.1:7803`
 points the app at a lab daemon so the live ring is untouched.
 
 The app is a menu-bar utility (`LSUIElement`), so it has no Dock icon. If the

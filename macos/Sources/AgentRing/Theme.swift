@@ -46,13 +46,13 @@ enum Theme {
 
     static func stateLabel(_ state: String) -> String {
         switch state {
-        case "thinking": "等模型回复"
-        case "tool": "执行工具"
-        case "editing": "改文件"
-        case "waiting": "等待审批"
-        case "done": "完成"
-        case "error": "报错"
-        case "idle": "空闲"
+        case "thinking": L10n.text("等模型回复")
+        case "tool": L10n.text("执行工具")
+        case "editing": L10n.text("改文件")
+        case "waiting": L10n.text("等待审批")
+        case "done": L10n.text("完成")
+        case "error": L10n.text("报错")
+        case "idle": L10n.text("空闲")
         default: state
         }
     }

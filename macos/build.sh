@@ -40,6 +40,12 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>AgentRing</string>
   <key>CFBundleIconFile</key><string>AgentRing</string>
   <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>zh-Hans</string>
+  </array>
   <key>CFBundleShortVersionString</key><string>__VERSION__</string>
   <key>CFBundleVersion</key><string>1</string>
   <key>LSMinimumSystemVersion</key><string>14.0</string>
@@ -53,6 +59,12 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 sed -i '' "s/__VERSION__/$VERSION/" "$APP/Contents/Info.plist"
+
+echo "==> localizations"
+for lproj in "$ROOT/macos/Resources/"*.lproj; do
+  [ -d "$lproj" ] || continue
+  cp -R "$lproj" "$APP/Contents/Resources/"
+done
 
 echo "==> icon"
 "$PY" "$ROOT/macos/make-icon.py" \

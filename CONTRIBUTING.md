@@ -107,9 +107,12 @@ listed in `BRIDGE_INSTALLERS` in `daemon/src/sources.mjs`.
 - Deployment, upgrade and setup troubleshooting belong in
   `docs/installation.md`; interface and daily behaviour belong in
   `docs/usage.md`.
+- Interface copy lives in `macos/Resources/{en,zh-Hans}.lproj/Localizable.strings`;
+  add the Chinese key and the English value for every new string. Runtime
+  strings (counts, daemon labels) go through `L10n` in `Localization.swift`.
 - Screenshots live in `docs/images/`. Rebuild the app first so the version in the
-  sidebar is current; the `AGENTRING_TAB`, `AGENTRING_BASE` and
-  `AGENTRING_WINDOW_HEIGHT` hooks are documented in
+  sidebar is current; the `AGENTRING_TAB`, `AGENTRING_BASE`,
+  `AGENTRING_LANGUAGE` and `AGENTRING_WINDOW_HEIGHT` hooks are documented in
   [Development](docs/development.md).
 - The root README is Chinese; `docs/` is English. Keep that split unless a
   documentation overhaul is explicitly scoped.

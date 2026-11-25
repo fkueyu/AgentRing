@@ -31,9 +31,16 @@ Swift Package Manager (`Package.swift`) and packaged/ad-hoc signed by
 | `Sources/AgentRing/RingLayerView.swift` | 24 CALayers driven by `/frame` at 30 fps (previews are daemon state) |
 | `Sources/AgentRing/AgentRingSession.swift` | Ephemeral URLSession; no CFNetwork sleep assertions |
 | `Sources/AgentRing/Theme.swift` | Colours, labels, SF Symbols |
+| `Sources/AgentRing/Localization.swift` | Language switch, localized daemon labels and runtime strings |
+| `Resources/en.lproj`, `Resources/zh-Hans.lproj` | Interface strings; `build.sh` copies both into the app bundle |
 | `Sources/AgentRing/MenuBarIcon.swift` | Loads the template menu-bar ring and provides `MenuBarGlyph` |
 | `Resources/Logo.png` | Brand logo used to generate the app and menu-bar icons |
 | `make-icon.py` | Crops/masks the logo into the 1024 px app icon used by `build.sh` |
 
 The app is `LSUIElement`: no Dock icon. If no menu-bar icon appears, allow
 AgentRing in macOS “Menu Bar” settings and in Thaw/Bartender/Ice.
+
+The interface follows the system language by default and can be switched in
+**通用 → 语言**. Static copy is keyed by the Chinese source string in the two
+`.lproj` files; runtime copy (counts, daemon labels, statuses) goes through
+`L10n`. New visible strings need both the Chinese key and the English value.

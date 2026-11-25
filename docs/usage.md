@@ -165,6 +165,9 @@ soon as events arrive.
 
 - **连接**: daemon address, ring IP, fps, restart daemon and open the browser
   preview.
+- **语言**: switch the interface between 中文 and English, or follow the system.
+  Applies immediately and only affects the app; the daemon and the frame
+  protocol are unchanged.
 - **维护**: clear all session records (useful after an agent is killed without
   sending its end event).
 - **关于**: app version, daemon version, hardware summary, menu-bar behaviour.

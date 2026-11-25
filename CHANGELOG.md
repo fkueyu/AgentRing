@@ -6,6 +6,12 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- The app interface can switch between Simplified Chinese and English in
+  **通用 → 语言**, or follow the system language. The choice applies immediately
+  and is saved per user; it does not affect the daemon or the ring protocol.
+
 ### Fixed
 
 - The sidebar logo and title now use the same wider inset as the navigation

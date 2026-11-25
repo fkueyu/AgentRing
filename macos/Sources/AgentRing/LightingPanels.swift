@@ -13,7 +13,12 @@ extension LightingTab {
     @ViewBuilder
     var displayPanel: some View {
         VStack(spacing: 14) {
-            SettingsCard("亮度", detail: nightActive ? "实际输出 \(Int((effectiveBrightness * 100).rounded()))%" : nil) {
+            SettingsCard(
+                "亮度",
+                detail: nightActive
+                    ? L10n.actualBrightness(Int((effectiveBrightness * 100).rounded()))
+                    : nil
+            ) {
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
                     Text("\(Int((model.config.display.brightness * 100).rounded()))%")
                         .font(.system(size: 32, weight: .semibold, design: .rounded))
@@ -211,7 +216,7 @@ extension LightingTab {
                         Text("最多分段")
                             .font(.callout)
                         Spacer(minLength: 8)
-                        Text("\(Int(model.config.layout.maxAgents.rounded())) 段")
+                        Text(L10n.segments(Int(model.config.layout.maxAgents.rounded())))
                             .font(.callout.monospacedDigit())
                             .foregroundStyle(.secondary)
                             .contentTransition(.numericText())
@@ -228,7 +233,7 @@ extension LightingTab {
                 SettingRow("分段间隔", caption: "段之间空出的灯珠数。") {
                     Picker("", selection: segmentedBinding(\.layout.gapLeds)) {
                         ForEach(0...3, id: \.self) { count in
-                            Text("\(count) 颗").tag(Double(count))
+                            Text(L10n.leds(count)).tag(Double(count))
                         }
                     }
                     .labelsHidden()
@@ -240,7 +245,7 @@ extension LightingTab {
                 if model.config.layout.mode == "rotate" {
                     SettingRow("轮播间隔", caption: "每隔多久轮换到下一组会话。") {
                         HStack(spacing: 9) {
-                            Text("\(Int(model.config.layout.rotateSeconds)) 秒")
+                            Text(L10n.seconds(Int(model.config.layout.rotateSeconds)))
                                 .font(.callout.monospacedDigit())
                                 .foregroundStyle(.secondary)
                             Stepper("", value: binding(\.layout.rotateSeconds), in: 3...60, step: 1)
@@ -317,7 +322,7 @@ extension LightingTab {
                 )
             }
 
-            Text(accentRuleCaption)
+            Text(LocalizedStringKey(accentRuleCaption))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -404,7 +409,7 @@ extension LightingTab {
 
                         Picker("", selection: effectBinding(key)) {
                             ForEach(model.effectOptions(for: key)) { option in
-                                Text(option.label).tag(option.id)
+                                Text(LocalizedStringKey(option.label)).tag(option.id)
                             }
                         }
                         .labelsHidden()
@@ -420,7 +425,7 @@ extension LightingTab {
                             Stepper("", value: speedBinding(key), in: 0.2...3, step: 0.1)
                                 .labelsHidden()
                                 .controlSize(.small)
-                                .help("\(Theme.stateLabel(key))的动效速度")
+                                .help(L10n.effectSpeedHelp(Theme.stateLabel(key)))
                         }
                         .frame(width: 74, alignment: .trailing)
                     }
@@ -442,7 +447,7 @@ extension LightingTab {
                 caption: "显示完成效果的时间，之后回到待机或下一个会话。"
             ) {
                 HStack(spacing: 9) {
-                    Text("\(Int(model.config.motion.doneHoldSeconds)) 秒")
+                    Text(L10n.seconds(Int(model.config.motion.doneHoldSeconds)))
                         .font(.callout.monospacedDigit())
                         .foregroundStyle(.secondary)
                     Stepper("", value: binding(\.motion.doneHoldSeconds), in: 2...30, step: 1)
@@ -457,7 +462,7 @@ extension LightingTab {
                 caption: "超过这个时间没有事件就回到空闲；等待审批不会降级。"
             ) {
                 HStack(spacing: 9) {
-                    Text("\(Int(model.config.motion.staleMinutes)) 分")
+                    Text(L10n.minutes(Int(model.config.motion.staleMinutes)))
                         .font(.callout.monospacedDigit())
                         .foregroundStyle(.secondary)
                     Stepper("", value: binding(\.motion.staleMinutes), in: 2...60, step: 1)
@@ -468,7 +473,7 @@ extension LightingTab {
     }
 
     private func fieldLabel(_ text: String) -> some View {
-        Text(text)
+        Text(LocalizedStringKey(text))
             .font(.caption.weight(.medium))
             .foregroundStyle(.secondary)
     }
@@ -493,7 +498,7 @@ private struct PaletteTile: View {
             VStack(alignment: .leading, spacing: 8) {
                 swatch
 
-                Text(label)
+                Text(LocalizedStringKey(label))
                     .font(.caption.weight(selected ? .semibold : .regular))
                     .foregroundStyle(selected ? Color.primary : Color.secondary)
                     .lineLimit(1)
@@ -516,7 +521,7 @@ private struct PaletteTile: View {
         .animation(.easeOut(duration: 0.12), value: selected)
         .animation(.easeOut(duration: 0.12), value: hovering)
         .accessibilityAddTraits(selected ? [.isSelected] : [])
-        .accessibilityLabel("\(label)配色")
+        .accessibilityLabel(L10n.colourFor(label))
     }
 
     @ViewBuilder

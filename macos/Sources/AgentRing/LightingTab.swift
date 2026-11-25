@@ -183,7 +183,9 @@ struct LightingTab: View {
                 RingStage(size: 184, base: model.base)
 
                 VStack(spacing: 4) {
-                    Text(previewSummary ?? (model.agents.isEmpty ? "待机中" : "\(model.activeCount) 个会话进行中"))
+                    Text(previewSummary ?? (model.agents.isEmpty
+                        ? L10n.text("待机中")
+                        : L10n.activeSessions(model.activeCount)))
                         .font(.callout.weight(.medium))
                     HStack(spacing: 5) {
                         Circle()
@@ -191,7 +193,7 @@ struct LightingTab: View {
                             .frame(width: 5, height: 5)
                         Text(preview == nil
                             ? liveStatusText
-                            : (model.ringConnected ? "效果预览 · 已同步灯环" : "效果预览 · 灯环未连接"))
+                            : L10n.previewFoot(synced: model.ringConnected))
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -203,7 +205,10 @@ struct LightingTab: View {
 
     private var previewSummary: String? {
         guard let preview else { return nil }
-        return "\(Theme.stateLabel(preview.state)) · \(model.effectLabel(for: preview.state, id: preview.effect))"
+        return L10n.effectLine(
+            Theme.stateLabel(preview.state),
+            model.effectLabel(for: preview.state, id: preview.effect)
+        )
     }
 
     private var contextCard: some View {
@@ -243,7 +248,7 @@ struct LightingTab: View {
     private var displayContext: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(nightActive ? "夜间亮度" : "有效亮度")
+                Text(L10n.text(nightActive ? "夜间亮度" : "有效亮度"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Spacer(minLength: 8)
@@ -301,12 +306,12 @@ struct LightingTab: View {
             FactRow(
                 label: "动画速度",
                 value: model.config.display.standby == "dot"
-                    ? "静止"
+                    ? L10n.text("静止")
                     : String(format: "%.1f×", model.config.display.standbySpeed)
             )
             FactRow(
                 label: "当前状态",
-                value: model.agents.isEmpty ? "显示待机" : "会话进行中"
+                value: model.agents.isEmpty ? L10n.text("显示待机") : L10n.text("会话进行中")
             )
         }
     }
@@ -320,7 +325,10 @@ struct LightingTab: View {
                 colors: layoutSwatches
             )
 
-            Text("最多 \(Int(model.config.layout.maxAgents.rounded())) 段 · 段间空 \(Int(model.config.layout.gapLeds.rounded())) 颗灯")
+            Text(L10n.segmentSummary(
+                max: Int(model.config.layout.maxAgents.rounded()),
+                gap: Int(model.config.layout.gapLeds.rounded())
+            ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -328,9 +336,15 @@ struct LightingTab: View {
 
             FactRow(label: "分配方式", value: layoutLabel(model.config.layout.mode))
             if model.config.layout.mode == "rotate" {
-                FactRow(label: "轮播间隔", value: "\(Int(model.config.layout.rotateSeconds)) 秒")
+                FactRow(
+                    label: "轮播间隔",
+                    value: L10n.seconds(Int(model.config.layout.rotateSeconds))
+                )
             }
-            FactRow(label: "空闲会话", value: model.config.layout.showIdle ? "占一段" : "不显示")
+            FactRow(
+                label: "空闲会话",
+                value: model.config.layout.showIdle ? L10n.text("占一段") : L10n.text("不显示")
+            )
         }
     }
 
@@ -395,7 +409,7 @@ struct LightingTab: View {
             }
 
             if let hint = effectHint(preview.state, preview.effect) {
-                Text(hint)
+                Text(LocalizedStringKey(hint))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -480,9 +494,9 @@ struct LightingTab: View {
     }
 
     private var ringStatusText: String {
-        guard model.connected else { return "守护进程离线" }
-        guard model.ringConnected else { return "灯环未连接" }
-        return model.ringFPS > 0 ? "灯环在线 · \(model.ringFPS) fps" : "灯环在线"
+        guard model.connected else { return L10n.text("守护进程离线") }
+        guard model.ringConnected else { return L10n.text("灯环未连接") }
+        return L10n.ringStatus(model.ringFPS)
     }
 
     private var liveStatusColor: Color {
@@ -491,9 +505,9 @@ struct LightingTab: View {
     }
 
     private var liveStatusText: String {
-        guard model.connected else { return "守护进程未连接" }
-        guard model.ringConnected else { return "灯环未连接 · 预览仍可用" }
-        return model.ringFPS > 0 ? "灯环已同步 · \(model.ringFPS) fps" : "灯环已同步"
+        guard model.connected else { return L10n.text("守护进程未连接") }
+        guard model.ringConnected else { return L10n.text("灯环未连接 · 预览仍可用") }
+        return L10n.ringStatus(model.ringFPS, synced: true)
     }
 
     var nightActive: Bool {
@@ -552,8 +566,8 @@ struct LightingTab: View {
 
     var nightSummary: String {
         let night = model.config.display.nightMode
-        guard night.enabled else { return "关闭" }
-        guard night.startMinute != night.endMinute else { return "未生效" }
+        guard night.enabled else { return L10n.text("关闭") }
+        guard night.startMinute != night.endMinute else { return L10n.text("未生效") }
         return "\(clock(night.startMinute))–\(clock(night.endMinute))"
     }
 
@@ -567,9 +581,9 @@ struct LightingTab: View {
 
     var powerCaption: String {
         if model.config.display.currentLimitMa < 500 {
-            return "上限偏低，亮画面会被明显压暗；24 颗全白约 1.44 A。"
+            return L10n.text("上限偏低，亮画面会被明显压暗；24 颗全白约 1.44 A。")
         }
-        return "估算电流超过上限时整帧等比压暗；24 颗全白约 1.44 A。"
+        return L10n.text("估算电流超过上限时整帧等比压暗；24 颗全白约 1.44 A。")
     }
 
     func clock(_ minutes: Int) -> String {
@@ -586,25 +600,18 @@ struct LightingTab: View {
 
     func standbyBlurb(_ id: String) -> String {
         switch id {
-        case "orbit": "光珠绕环慢行"
-        case "breathe": "随机明暗呼吸"
-        default: "一颗灯安静停驻"
+        case "orbit": L10n.text("光珠绕环慢行")
+        case "breathe": L10n.text("随机明暗呼吸")
+        default: L10n.text("一颗灯安静停驻")
         }
     }
 
     func layoutLabel(_ id: String) -> String {
-        layoutModes.first { $0.id == id }?.label ?? "等分"
+        L10n.text(layoutModes.first { $0.id == id }?.label ?? "等分")
     }
 
     func layoutBlurb(_ id: String) -> String {
-        switch id {
-        case "focus":
-            return "只保留最需要关注的那一段，其余会话暂时让位。"
-        case "rotate":
-            return "每隔 \(Int(model.config.layout.rotateSeconds)) 秒轮换到下一组会话，适合会话很多时。"
-        default:
-            return "把环按顺序切分给每个会话，一眼看到全部进展。"
-        }
+        L10n.layoutBlurb(id, seconds: Int(model.config.layout.rotateSeconds))
     }
 
     func stateHex(_ key: String) -> String {
@@ -741,7 +748,7 @@ private struct LightingSectionBar: View {
                         Image(systemName: item.symbol)
                             .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(selection == item ? Color.accentColor : Color.secondary)
-                        Text(item.title)
+                        Text(LocalizedStringKey(item.title))
                             .font(.callout.weight(selection == item ? .semibold : .regular))
                             .foregroundStyle(selection == item ? Color.primary : Color.secondary)
                     }

@@ -478,7 +478,7 @@ final class DaemonModel: ObservableObject {
 
         guard let (data, _) = try? await AgentRingSession.shared.data(for: request),
               let reply = try? JSONDecoder().decode(Reply.self, from: data) else {
-            return "无法连接守护进程"
+            return L10n.text("无法连接守护进程")
         }
         if reply.ok {
             if let report = reply.report {
@@ -488,7 +488,7 @@ final class DaemonModel: ObservableObject {
             }
             return nil
         }
-        return reply.error ?? "接入失败"
+        return reply.error ?? L10n.text("接入失败")
     }
 
     func effectOptions(for state: String) -> [EffectOption] {
@@ -496,7 +496,7 @@ final class DaemonModel: ObservableObject {
     }
 
     func effectLabel(for state: String, id: String) -> String {
-        effectOptions(for: state).first(where: { $0.id == id })?.label ?? id
+        L10n.text(effectOptions(for: state).first(where: { $0.id == id })?.label ?? id)
     }
 
     func standbyOptions() -> [EffectOption] {
@@ -505,7 +505,7 @@ final class DaemonModel: ObservableObject {
     }
 
     func standbyLabel(id: String) -> String {
-        standbyOptions().first(where: { $0.id == id })?.label ?? id
+        L10n.text(standbyOptions().first(where: { $0.id == id })?.label ?? id)
     }
 
     func paletteOptions() -> [EffectOption] {
@@ -515,11 +515,12 @@ final class DaemonModel: ObservableObject {
     }
 
     func paletteLabel(id: String) -> String {
-        paletteOptions().first(where: { $0.id == id })?.label ?? id
+        L10n.text(paletteOptions().first(where: { $0.id == id })?.label ?? id)
     }
 
     func paletteBlurb(_ id: String) -> String? {
-        paletteOptions().first(where: { $0.id == id })?.blurb
+        guard let blurb = paletteOptions().first(where: { $0.id == id })?.blurb else { return nil }
+        return L10n.text(blurb)
     }
 
     func paletteKind(_ id: String) -> String {
@@ -554,11 +555,12 @@ final class DaemonModel: ObservableObject {
     }
 
     func accentLabel(id: String) -> String {
-        accentOptions().first(where: { $0.id == id })?.label ?? id
+        L10n.text(accentOptions().first(where: { $0.id == id })?.label ?? id)
     }
 
     func accentBlurb(_ id: String) -> String? {
-        accentOptions().first(where: { $0.id == id })?.blurb
+        guard let blurb = accentOptions().first(where: { $0.id == id })?.blurb else { return nil }
+        return L10n.text(blurb)
     }
 
     func accentKind(_ id: String) -> String {

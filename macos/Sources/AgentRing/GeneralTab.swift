@@ -7,9 +7,15 @@ import SwiftUI
 struct GeneralTab: View {
     @EnvironmentObject private var model: DaemonModel
     @State private var confirmingClear = false
+    @AppStorage("appLanguage") private var appLanguage = AppLanguage.system.rawValue
 
     private var version: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"
+    }
+
+    private var ringConnectionText: String {
+        guard model.ringConnected else { return L10n.text("未连接") }
+        return L10n.ringStatus(model.ringFPS, connected: true)
     }
 
     var body: some View {
@@ -28,7 +34,7 @@ struct GeneralTab: View {
                     SettingsCard("连接") {
                         SettingRow("守护进程", caption: model.base.absoluteString.replacingOccurrences(of: "http://", with: "")) {
                             Label(
-                                model.connected ? "已连接" : "未连接",
+                                LocalizedStringKey(model.connected ? "已连接" : "未连接"),
                                 systemImage: model.connected ? "checkmark.circle.fill" : "exclamationmark.triangle.fill"
                             )
                             .font(.callout)
@@ -40,9 +46,7 @@ struct GeneralTab: View {
                         SettingRow("灯环", caption: model.ringConnected && !model.ringIP.isEmpty ? model.ringIP : nil) {
                             VStack(alignment: .trailing, spacing: 1) {
                                 Label(
-                                    model.ringConnected
-                                        ? (model.ringFPS > 0 ? "已连接 · \(model.ringFPS) fps" : "已连接")
-                                        : "未连接",
+                                    LocalizedStringKey(ringConnectionText),
                                     systemImage: model.ringConnected
                                         ? "checkmark.circle.fill"
                                         : "exclamationmark.triangle.fill"
@@ -62,6 +66,22 @@ struct GeneralTab: View {
                             Spacer(minLength: 0)
                         }
                         .padding(.top, 2)
+                    }
+
+                    SettingsCard("语言") {
+                        SettingRow(
+                            "界面语言",
+                            caption: "切换 App 的界面语言，立即生效。"
+                        ) {
+                            Picker("", selection: $appLanguage) {
+                                Text("跟随系统").tag(AppLanguage.system.rawValue)
+                                Text("中文").tag(AppLanguage.zh.rawValue)
+                                Text("English").tag(AppLanguage.en.rawValue)
+                            }
+                            .labelsHidden()
+                            .pickerStyle(.segmented)
+                            .frame(width: 220)
+                        }
                     }
 
                     SettingsCard("维护") {

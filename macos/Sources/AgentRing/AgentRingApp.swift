@@ -12,6 +12,15 @@ enum SettingsWindow {
 struct AgentRingApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var model = DaemonModel()
+    @AppStorage("appLanguage") private var appLanguage = AppLanguage.system.rawValue
+
+    private var locale: Locale {
+        if let raw = ProcessInfo.processInfo.environment["AGENTRING_LANGUAGE"],
+           let language = AppLanguage(rawValue: raw) {
+            return language.locale
+        }
+        return (AppLanguage(rawValue: appLanguage) ?? .system).locale
+    }
 
     var body: some Scene {
         // The only window is the settings window: status lives in the menu bar,
@@ -21,6 +30,7 @@ struct AgentRingApp: App {
         Window(SettingsWindow.title, id: "settings") {
             SettingsView()
                 .environmentObject(model)
+                .environment(\.locale, locale)
         }
         .defaultSize(width: 920, height: 680)
         .windowStyle(.hiddenTitleBar)
@@ -34,6 +44,7 @@ struct AgentRingApp: App {
         MenuBarExtra {
             MenuContent()
                 .environmentObject(model)
+                .environment(\.locale, locale)
         } label: {
             HStack(spacing: 3) {
                 MenuBarGlyph()
@@ -110,10 +121,16 @@ struct MenuContent: View {
         Divider()
 
         if model.waitingCount > 0 {
-            Label("\(model.waitingCount) 个会话等待审批", systemImage: "hand.raised.fill")
+            Label(
+                LocalizedStringKey(L10n.waitingApprovals(model.waitingCount, long: true)),
+                systemImage: "hand.raised.fill"
+            )
         }
         if model.errorCount > 0 {
-            Label("\(model.errorCount) 个会话报错", systemImage: "exclamationmark.triangle.fill")
+            Label(
+                LocalizedStringKey(L10n.errors(model.errorCount, long: true)),
+                systemImage: "exclamationmark.triangle.fill"
+            )
         }
         if model.connected && !model.ringConnected {
             Label("灯环未连接", systemImage: "bolt.slash.fill")

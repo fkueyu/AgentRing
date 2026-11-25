@@ -55,7 +55,7 @@ struct AttentionChip: View {
     let color: Color
 
     var body: some View {
-        Label(text, systemImage: symbol)
+        Label(LocalizedStringKey(text), systemImage: symbol)
             .font(.caption.weight(.medium))
             .foregroundStyle(color)
             .padding(.horizontal, 9)

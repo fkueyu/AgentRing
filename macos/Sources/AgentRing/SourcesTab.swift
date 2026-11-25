@@ -49,7 +49,12 @@ struct SourcesTab: View {
     // MARK: - Cards
 
     private var detectedCard: some View {
-        SettingsCard("Agent 接入", detail: model.sourceReport == nil ? (model.connected ? "检测中" : "无法检测") : "本地检测") {
+        SettingsCard(
+            "Agent 接入",
+            detail: model.sourceReport == nil
+                ? (model.connected ? L10n.text("检测中") : L10n.text("无法检测"))
+                : L10n.text("本地检测")
+        ) {
             VStack(spacing: 0) {
                 ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
                     agentRow(entry)
@@ -61,7 +66,7 @@ struct SourcesTab: View {
             }
 
             if let note = installNote {
-                Text(note)
+                Text(LocalizedStringKey(note))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -71,7 +76,7 @@ struct SourcesTab: View {
     }
 
     private var otherCard: some View {
-        SettingsCard("其他来源", detail: "\(otherIDs.count) 个") {
+        SettingsCard("其他来源", detail: L10n.sources(otherIDs.count)) {
             if !activeOthers.isEmpty {
                 VStack(spacing: 10) {
                     ForEach(activeOthers, id: \.self) { id in
@@ -82,13 +87,15 @@ struct SourcesTab: View {
 
             if !restOthers.isEmpty {
                 if !activeOthers.isEmpty { Divider() }
-                DisclosureGroup("其余 \(restOthers.count) 个来源（颜色与开关）", isExpanded: $showRest) {
+                DisclosureGroup(isExpanded: $showRest) {
                     VStack(spacing: 10) {
                         ForEach(restOthers, id: \.self) { id in
                             compactRow(id)
                         }
                     }
                     .padding(.top, 8)
+                } label: {
+                    Text(L10n.restSources(restOthers.count))
                 }
                 .font(.caption)
             }
@@ -129,7 +136,7 @@ struct SourcesTab: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
                 .truncationMode(.middle)
-                .help(entry.install?.path ?? "未检测到安装路径")
+                .help(entry.install?.path ?? L10n.text("未检测到安装路径"))
 
             if model.sourceReport != nil {
                 HStack(spacing: 5) {
@@ -169,8 +176,8 @@ struct SourcesTab: View {
             if !session.all.isEmpty {
                 SourceTag(
                     text: session.active > 0
-                        ? "\(session.all.count) 个会话 · \(session.active) 活跃"
-                        : "\(session.all.count) 个会话",
+                        ? L10n.sessionsParenthetical(session.all.count, active: session.active)
+                        : L10n.sessions(session.all.count),
                     color: session.active > 0 ? Theme.green : .secondary
                 )
             }
@@ -228,8 +235,8 @@ struct SourcesTab: View {
         let waiting = entries.filter {
             ["missing", "disabled", "mismatch"].contains($0.bridge?.state ?? "")
         }.count
-        var parts = ["\(wired) 个已接入"]
-        if waiting > 0 { parts.append("\(waiting) 个待接入") }
+        var parts = [L10n.wired(wired)]
+        if waiting > 0 { parts.append(L10n.waitingSources(waiting)) }
         return parts.joined(separator: " · ")
     }
 
@@ -251,9 +258,9 @@ struct SourcesTab: View {
     }
 
     private var colourHelp: String {
-        model.config.display.accent == "source"
+        L10n.text(model.config.display.accent == "source"
             ? "这个来源在环上的颜色"
-            : "这个来源的颜色（只在「来源色」配色下生效）"
+            : "这个来源的颜色（只在「来源色」配色下生效）")
     }
 
     private func sessions(_ id: String) -> (all: [Agent], active: Int) {
@@ -262,16 +269,16 @@ struct SourcesTab: View {
     }
 
     private func status(for entry: SourceEntry) -> (text: String, color: Color) {
-        if model.sourceReport == nil { return ("状态未知", .secondary) }
-        if entry.error != nil { return ("检测失败", Theme.red) }
-        guard entry.detected else { return ("未安装", .secondary) }
+        if model.sourceReport == nil { return (L10n.text("状态未知"), .secondary) }
+        if entry.error != nil { return (L10n.text("检测失败"), Theme.red) }
+        guard entry.detected else { return (L10n.text("未安装"), .secondary) }
         switch entry.bridge?.state {
-        case "installed": return ("已接入", Theme.green)
-        case "disabled": return ("未启用", Theme.amber)
-        case "mismatch": return ("配置不匹配", Theme.amber)
-        case "missing": return ("未接入", Theme.amber)
-        case "manual": return ("可手动接入", .secondary)
-        default: return ("未知", .secondary)
+        case "installed": return (L10n.text("已接入"), Theme.green)
+        case "disabled": return (L10n.text("未启用"), Theme.amber)
+        case "mismatch": return (L10n.text("配置不匹配"), Theme.amber)
+        case "missing": return (L10n.text("未接入"), Theme.amber)
+        case "manual": return (L10n.text("可手动接入"), .secondary)
+        default: return (L10n.text("未知"), .secondary)
         }
     }
 
@@ -284,12 +291,12 @@ struct SourcesTab: View {
     }
 
     private func installLine(_ entry: SourceEntry) -> String {
-        guard model.sourceReport != nil else { return "无法检测（守护进程未连接）" }
-        guard entry.detected, let install = entry.install else { return "未检测到安装" }
-        var parts = ["已安装"]
+        guard model.sourceReport != nil else { return L10n.text("无法检测（守护进程未连接）") }
+        guard entry.detected, let install = entry.install else { return L10n.text("未检测到安装") }
+        var parts = [L10n.text("已安装")]
         if let version = install.version, !version.isEmpty { parts.append(version) }
-        if install.running == true { parts.append("运行中") }
-        if let profile = install.profile { parts.append("\(profile) 配置") }
+        if install.running == true { parts.append(L10n.text("运行中")) }
+        if let profile = install.profile { parts.append(L10n.profile(profile)) }
         // Tools without a version (a CLI) still deserve a path.
         if parts.count == 1, let path = install.path { parts.append(shortPath(path)) }
         return parts.joined(separator: " · ")
@@ -297,13 +304,13 @@ struct SourcesTab: View {
 
     private func bridgeLine(_ entry: SourceEntry, sessions: [Agent]) -> String {
         guard model.sourceReport != nil else { return "—" }
-        guard let bridge = entry.bridge else { return "未检测到接入信息" }
-        var line = bridge.detail ?? "—"
+        guard let bridge = entry.bridge else { return L10n.text("未检测到接入信息") }
+        var line = L10n.sourceDetail(bridge.detail ?? "—")
         guard !sessions.isEmpty else { return line }
         let active = sessions.filter { $0.state != "idle" }.count
-        line += active > 0
-            ? " · \(sessions.count) 个会话（\(active) 活跃）"
-            : " · \(sessions.count) 个会话"
+        line += " · " + (active > 0
+            ? L10n.sessionsParenthetical(sessions.count, active: active)
+            : L10n.sessions(sessions.count))
         return line
     }
 
@@ -362,7 +369,7 @@ private struct SourceTag: View {
     let color: Color
 
     var body: some View {
-        Text(text)
+        Text(LocalizedStringKey(text))
             .font(.caption2.weight(.medium))
             .foregroundStyle(color)
             .padding(.horizontal, 6)
@@ -393,7 +400,7 @@ private struct BridgeInstallRow: View {
                                 ProgressView()
                                     .controlSize(.small)
                             }
-                            Text(installing ? "正在接入…" : "一键接入")
+                            Text(LocalizedStringKey(installing ? "正在接入…" : "一键接入"))
                         }
                         .font(.caption.weight(.medium))
                     }
@@ -405,7 +412,7 @@ private struct BridgeInstallRow: View {
                 Button {
                     copy()
                 } label: {
-                    Label(copied ? "已复制" : "复制命令", systemImage: copied ? "checkmark" : "doc.on.doc")
+                    Label(LocalizedStringKey(copied ? "已复制" : "复制命令"), systemImage: copied ? "checkmark" : "doc.on.doc")
                         .font(.caption2)
                 }
                 .buttonStyle(.plain)

@@ -21,11 +21,11 @@ struct PreviewTab: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("\(model.agents.count) 个会话 · \(model.activeCount) 个活跃")
+                        Text(L10n.sessions(model.agents.count, active: model.activeCount))
                             .font(.title3.weight(.semibold))
                         Text(model.agents.isEmpty
-                            ? "待机 · " + model.standbyLabel(id: model.config.display.standby)
-                            : "预览由守护进程实时渲染")
+                            ? L10n.standbyLine(model.standbyLabel(id: model.config.display.standby))
+                            : L10n.text("预览由守护进程实时渲染"))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -35,14 +35,14 @@ struct PreviewTab: View {
                             if model.waitingCount > 0 {
                                 AttentionChip(
                                     symbol: "hand.raised.fill",
-                                    text: "\(model.waitingCount) 个等待审批",
+                                    text: L10n.waitingApprovals(model.waitingCount),
                                     color: Theme.amber
                                 )
                             }
                             if model.errorCount > 0 {
                                 AttentionChip(
                                     symbol: "exclamationmark.triangle.fill",
-                                    text: "\(model.errorCount) 个报错",
+                                    text: L10n.errors(model.errorCount),
                                     color: Theme.red
                                 )
                             }
@@ -106,7 +106,9 @@ struct PreviewTab: View {
     private var sessionsCard: some View {
         SettingsCard(
             "会话",
-            detail: model.agents.isEmpty ? "待机" : "\(model.agents.count) 个 · \(model.activeCount) 活跃",
+            detail: model.agents.isEmpty
+                ? L10n.text("待机")
+                : L10n.sessions(model.agents.count, active: model.activeCount),
             stretch: true
         ) {
             if model.agents.isEmpty {
@@ -145,7 +147,7 @@ struct PreviewTab: View {
                     HStack(spacing: 8) {
                         Text("右键会话可移除记录")
                         Spacer(minLength: 8)
-                        Text("静默 \(Int(model.config.motion.staleMinutes)) 分钟后回到空闲")
+                        Text(L10n.silentMinutes(Int(model.config.motion.staleMinutes)))
                     }
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
@@ -174,7 +176,10 @@ struct PreviewTab: View {
             Circle()
                 .fill(model.config.stateColor(state))
                 .frame(width: 6, height: 6)
-            Text("\(Theme.stateLabel(state)) · \(model.effectLabel(for: state, id: effectID(for: state)))")
+            Text(L10n.effectLine(
+                Theme.stateLabel(state),
+                model.effectLabel(for: state, id: effectID(for: state))
+            ))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -195,11 +200,9 @@ struct PreviewTab: View {
     }
 
     private var statusText: String {
-        if !model.connected { return "守护进程未连接" }
-        if model.ringConnected {
-            return model.ringFPS > 0 ? "灯环在线 · \(model.ringFPS) fps" : "灯环在线"
-        }
-        return "灯环未连接 · 预览仍可用"
+        if !model.connected { return L10n.text("守护进程未连接") }
+        if model.ringConnected { return L10n.ringStatus(model.ringFPS) }
+        return L10n.text("灯环未连接 · 预览仍可用")
     }
 
     private var statusColor: Color {
