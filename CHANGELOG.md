@@ -6,6 +6,11 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- The sidebar logo and title now use the same wider inset as the navigation
+  icons, instead of sitting against the window edge.
+
 ## [0.3.0] - 2026-11-25
 
 One palette model, a Sources page that detects and installs agent bridges, and

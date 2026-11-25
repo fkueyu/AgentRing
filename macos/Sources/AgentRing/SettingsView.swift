@@ -103,9 +103,9 @@ private struct Sidebar: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             brand
-                .padding(.horizontal, 18)
-                .padding(.top, 18)
-                .padding(.bottom, 16)
+                .padding(.horizontal, 24)
+                .padding(.top, 22)
+                .padding(.bottom, 18)
 
             VStack(spacing: 2) {
                 ForEach(SettingsView.Tab.allCases) { item in
@@ -121,12 +121,12 @@ private struct Sidebar: View {
                     .help("\(item.title)（\(item.shortcutHint)）")
                 }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 14)
 
             Spacer(minLength: 12)
 
             Divider()
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 20)
 
             VStack(alignment: .leading, spacing: 8) {
                 statusRow(
@@ -135,20 +135,20 @@ private struct Sidebar: View {
                 )
                 statusRow(color: ringColor, text: ringText)
             }
-            .padding(.horizontal, 18)
+            .padding(.horizontal, 24)
             .padding(.top, 14)
             .padding(.bottom, 8)
 
             Text("AgentRing \(version)")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
-                .padding(.horizontal, 18)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 16)
         }
     }
 
     private var brand: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 11) {
             BrandMark(size: 27)
             VStack(alignment: .leading, spacing: 1) {
                 Text("AgentRing")
