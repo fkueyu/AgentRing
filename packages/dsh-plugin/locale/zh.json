@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "AgentRing 状态桥",
+    "description": "把本会话的生命周期上报给 127.0.0.1:7801 上的 AgentRing 守护进程，让 24 灯珠圆环显示空闲、思考、执行工具、改文件、等待审批/回答、完成和报错状态。",
+    "detail": "docs/DETAIL.md"
+  }
+}

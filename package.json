@@ -1,0 +1,23 @@
+{
+  "name": "agentring",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Turn local AI agent activity into a 24-LED WS2812B status ring",
+  "scripts": {
+    "start": "node daemon/bin/agentringd.mjs",
+    "test": "node --test daemon/test/*.test.mjs packages/dsh-plugin/test/*.test.mjs",
+    "install:daemon": "node scripts/install-daemon.mjs",
+    "install:app": "node scripts/install-app.mjs",
+    "install:codex": "node scripts/install-codex-hooks.mjs",
+    "uninstall:codex": "node scripts/install-codex-hooks.mjs --uninstall",
+    "ring": "node tools/ring-ascii.mjs",
+    "version:sync": "node scripts/sync-version.mjs",
+    "version:check": "node scripts/sync-version.mjs --check",
+    "install:claude": "node scripts/install-claude-hooks.mjs",
+    "uninstall:claude": "node scripts/install-claude-hooks.mjs --uninstall"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,4 @@
+- insert:
+    - id: agentring
+      name: '@local/agentring-dsh'
+      config: {}

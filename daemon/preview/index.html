@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AgentRing preview</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; overflow: auto;
+    background: radial-gradient(1200px 600px at 50% -10%, #1b2233, #0b0d12 60%);
+    color: #e7ecf5; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+  }
+  .app {
+    min-height: 100vh; box-sizing: border-box;
+    display: flex; gap: 40px; align-items: center; justify-content: center;
+    padding: 28px; flex-wrap: wrap;
+  }
+  @media (max-width: 900px), (max-height: 580px) {
+    .app { flex-direction: column; gap: 14px; padding: 16px; }
+    canvas { width: 280px; height: 280px; }
+    .panel { width: min(440px, 92vw); }
+    .legend { display: none; }
+  }
+  .ring-wrap { position: relative; filter: drop-shadow(0 0 18px rgba(80, 120, 255, .18)); }
+  canvas { display: block; }
+  .badge {
+    position: absolute; inset: auto 0 26px 0; text-align: center; color: #8b95a7; font-size: 12px;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .panel { width: 360px; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0 0 4px; letter-spacing: .01em; }
+  .sub { color: #7f899b; font-size: 12px; margin-bottom: 20px; }
+  .rows { display: flex; flex-direction: column; gap: 8px; }
+  .row {
+    display: grid; grid-template-columns: 10px 74px 1fr auto; gap: 10px; align-items: center;
+    padding: 10px 12px; border-radius: 10px; background: #141922; border: 1px solid #1f2632;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #3a4252; }
+  .src { font-weight: 600; font-size: 13px; }
+  .label { color: #9aa4b5; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tool { color: #6d7788; font-size: 11px; }
+  .state { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid #2a3342; color: #9aa4b5; }
+  .state.thinking { color: #8aa4ff; border-color: #2a3a6b; }
+  .state.tool { color: #6fc3ff; border-color: #1d4a6b; }
+  .state.editing { color: #c79bff; border-color: #4a2a6b; }
+  .state.waiting { color: #ffc76b; border-color: #6b4c14; }
+  .state.done { color: #7ee2a1; border-color: #235c39; }
+  .state.error { color: #ff8080; border-color: #6b2020; }
+  .empty { color: #5f6878; font-size: 13px; padding: 14px 4px; }
+  .legend { margin-top: 22px; color: #5f6878; font-size: 11px; line-height: 1.8; }
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="ring-wrap">
+      <canvas id="ring" width="380" height="380"></canvas>
+      <div class="badge" id="badge">standby</div>
+    </div>
+    <div class="panel">
+      <h1>AgentRing</h1>
+      <div class="sub" id="sub">connecting…</div>
+      <div class="rows" id="rows"></div>
+      <div class="legend">
+        <div>● 青绿 codex &nbsp; ● 蓝紫 deepseek harness</div>
+        <div>running = 彗星扫环 · waiting = 琥珀呼吸 · done = 绿闪 · error = 红闪</div>
+      </div>
+    </div>
+  </div>
+<script>
+  const N = 24
+  const canvas = document.getElementById('ring')
+  const ctx = canvas.getContext('2d')
+  const cx = canvas.width / 2, cy = canvas.height / 2
+  const radius = 138
+  const dotR = 13
+
+  let frame = new Uint8Array(N * 3)
+  const STATE_LABELS = {
+    thinking: '等模型', tool: '执行工具', editing: '改文件',
+    waiting: '等审批', done: '完成', error: '报错', idle: '空闲',
+  }
+  let sourceColors = { codex: '#10a37f', dsh: '#4d6bfe', claude: '#d97757', trae: '#ff4d4d', workbuddy: '#ff9f0a' }
+
+  async function loadConfig() {
+    try {
+      const cfg = await (await fetch('/config', { cache: 'no-store' })).json()
+      if (cfg.sources) sourceColors = cfg.sources
+    } catch {}
+  }
+
+  function drawRing() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.beginPath()
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)'
+    ctx.lineWidth = dotR * 1.9
+    ctx.stroke()
+
+    for (let i = 0; i < N; i++) {
+      const angle = (i / N) * Math.PI * 2 - Math.PI / 2
+      const x = cx + Math.cos(angle) * radius
+      const y = cy + Math.sin(angle) * radius
+      const r = frame[i * 3], g = frame[i * 3 + 1], b = frame[i * 3 + 2]
+      const lit = r + g + b > 6
+      ctx.beginPath()
+      ctx.arc(x, y, dotR, 0, Math.PI * 2)
+      ctx.fillStyle = `rgb(${r},${g},${b})`
+      ctx.fill()
+      if (lit) {
+        ctx.shadowColor = `rgb(${r},${g},${b})`
+        ctx.shadowBlur = 26
+        ctx.fill()
+        ctx.shadowBlur = 0
+      } else {
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)'
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+      }
+    }
+  }
+
+  async function tickFrame() {
+    try {
+      const res = await fetch('/frame', { cache: 'no-store' })
+      frame = new Uint8Array(await res.arrayBuffer())
+      drawRing()
+    } catch {}
+    setTimeout(tickFrame, 50)
+  }
+
+  function esc(s) {
+    return String(s ?? '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]))
+  }
+
+  async function tickState() {
+    try {
+      const state = await (await fetch('/state', { cache: 'no-store' })).json()
+      const rows = document.getElementById('rows')
+      document.getElementById('sub').textContent = `${state.agents.length} 个会话 · ${state.active} 个活跃`
+      document.getElementById('badge').textContent = state.active ? 'live' : 'standby'
+      rows.innerHTML = state.agents.length
+        ? state.agents.map(a => `
+          <div class="row">
+            <span class="dot" style="background:${esc(sourceColors[a.source]?.color || '#8c8ca0')}"></span>
+            <span class="src">${esc(a.source)}</span>
+            <span class="label" title="${esc(a.cwd)}">${esc(a.label)}${a.tool ? `<div class="tool">${esc(a.tool)}</div>` : ''}</span>
+            <span class="state ${esc(a.state)}">${esc(STATE_LABELS[a.state] || a.state)}</span>
+          </div>`).join('')
+        : '<div class="empty">还没有 agent 事件。启动 codex 或 dsh 即可看到。</div>'
+    } catch {}
+    setTimeout(tickState, 500)
+  }
+
+  tickFrame()
+  tickState()
+  loadConfig()
+  setInterval(loadConfig, 30_000)
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "@local/agentring-dsh",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Report DeepSeek Harness agent activity to the AgentRing LED daemon",
+  "exports": {
+    ".": "./index.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/"
+  }
+}

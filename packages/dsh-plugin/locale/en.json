@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "AgentRing bridge",
+    "description": "Reports this session's lifecycle to the AgentRing LED daemon on 127.0.0.1:7801 so a 24-LED ring can show idle, thinking, tool, editing, waiting-for-input, done, and error states.",
+    "detail": "docs/DETAIL.md"
+  }
+}

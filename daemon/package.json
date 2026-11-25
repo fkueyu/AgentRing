@@ -1,0 +1,15 @@
+{
+  "name": "agentring-daemon",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Local state and frame renderer for the AgentRing LED ring",
+  "scripts": {
+    "start": "node bin/agentringd.mjs",
+    "test": "node --test test/"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  }
+}

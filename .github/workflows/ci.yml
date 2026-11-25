@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  daemon:
+    name: Daemon and plugin tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/sync-version.mjs --check
+      - run: npm test
+
+  macos:
+    name: macOS app build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift build -c release --package-path macos
+
+  firmware:
+    name: ESP32 firmware compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache Arduino core
+        uses: actions/cache@v4
+        with:
+          path: ~/.arduino15
+          key: arduino-esp32-3.3.12
+      - uses: arduino/setup-arduino-cli@v1
+      - name: Install ESP32 core
+        run: |
+          arduino-cli config init --overwrite
+          arduino-cli config add board_manager.additional_urls \
+            https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32@3.3.12
+      - name: Compile ring firmware
+        run: |
+          arduino-cli compile \
+            --fqbn "esp32:esp32:esp32c3:CDCOnBoot=cdc,PartitionScheme=huge_app" \
+            firmware/esp32/agentring_ring
