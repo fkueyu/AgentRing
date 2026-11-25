@@ -10,8 +10,11 @@ enum MenuBarIcon {
     static let image: NSImage? = {
         let bundle = Bundle.main
         // Prefer the 2x asset for Retina, but always expose an 18 pt image.
+        // build.sh copies the two PNGs; Xcode combines the same names into a
+        // single TIFF, so accept either packaged form.
         let path = bundle.path(forResource: "MenuBarIcon@2x", ofType: "png")
             ?? bundle.path(forResource: "MenuBarIcon", ofType: "png")
+            ?? bundle.path(forResource: "MenuBarIcon", ofType: "tiff")
         guard let path, let image = NSImage(contentsOfFile: path) else { return nil }
         image.size = NSSize(width: 18, height: 18)
         image.isTemplate = true

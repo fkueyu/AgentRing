@@ -6,3 +6,4 @@ node_modules/
 *.log
 *.xcuserstate
 *.bin
+firmware/esp32/agentring_ring/build/

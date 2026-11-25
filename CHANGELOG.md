@@ -6,6 +6,14 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- An Xcode App Store target (`macos/AgentRing.xcodeproj`) with App Sandbox,
+  network/USB entitlements, Hardened Runtime, a privacy manifest, an asset
+  catalog and the AppIcon. This is build scaffolding: the self-contained Swift
+  daemon and USB firmware flasher are still being ported, so do not submit it
+  yet. The existing `build.sh` direct-download build is unchanged.
+
 ### Changed
 
 - Documentation is now bilingual: the root README, every guide under `docs/`,

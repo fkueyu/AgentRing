@@ -18,6 +18,28 @@ time; the sidebar and **General → About** show the app and daemon versions sep
 Swift Package Manager (`Package.swift`) and packaged/ad-hoc signed by
 `build.sh`.
 
+## Xcode / App Store
+
+`project.yml` is the source of truth for the Xcode App Store target; the
+generated `AgentRing.xcodeproj` is committed so Xcode and CI do not need
+XcodeGen. Regenerate it after editing the spec:
+
+```sh
+cd macos
+xcodegen generate
+xcodebuild -project AgentRing.xcodeproj -scheme AgentRing \
+  -configuration Release CODE_SIGNING_ALLOWED=NO build
+```
+
+The target adds App Sandbox + Hardened Runtime, network/client-server and USB
+entitlements, the app icon asset catalog, the privacy manifest and both
+localizations. `build.sh` remains the direct-download build.
+
+**Not submission-ready yet:** this target is scaffolding for the App Store. The
+self-contained Swift daemon and the USB firmware flasher still need to be
+ported; the current app talks to the Node daemon and uses `launchctl`, which the
+App Store sandbox does not allow.
+
 | File | Responsibility |
 |---|---|
 | `Sources/AgentRing/AgentRingApp.swift` | `MenuBarExtra`, settings window, app delegate |
@@ -37,7 +59,12 @@ Swift Package Manager (`Package.swift`) and packaged/ad-hoc signed by
 | `Resources/en.lproj`, `Resources/zh-Hans.lproj` | Interface strings; `build.sh` copies both into the app bundle |
 | `Sources/AgentRing/MenuBarIcon.swift` | Loads the template menu-bar ring and provides `MenuBarGlyph` |
 | `Resources/Logo.png` | Brand logo used to generate the app and menu-bar icons |
+| `Resources/MenuBarIcon.png`, `@2x` | Generated template menu-bar icons |
 | `make-icon.py` | Crops/masks the logo into the 1024 px app icon used by `build.sh` |
+| `project.yml` | XcodeGen spec for the App Store target |
+| `AgentRing.xcodeproj` | Generated Xcode project (App Store packaging) |
+| `Configuration/` | Info.plist, App Sandbox entitlements and privacy manifest |
+| `Assets.xcassets` | AppIcon asset catalog |
 
 The app is `LSUIElement`: no Dock icon. If no menu-bar icon appears, allow
 AgentRing in macOS “Menu Bar” settings and in Thaw/Bartender/Ice.

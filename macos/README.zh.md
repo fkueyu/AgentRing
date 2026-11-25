@@ -16,6 +16,25 @@ open /Applications/AgentRing.app
 版本。App 用 Swift Package Manager（`Package.swift`）构建，由 `build.sh` 打包并做
 ad-hoc 签名。
 
+## Xcode / App Store
+
+Xcode App Store target 以 `project.yml` 为准，生成后的 `AgentRing.xcodeproj` 也提交到仓库，
+Xcode 和 CI 不需要安装 XcodeGen。修改 spec 后重新生成：
+
+```sh
+cd macos
+xcodegen generate
+xcodebuild -project AgentRing.xcodeproj -scheme AgentRing \
+  -configuration Release CODE_SIGNING_ALLOWED=NO build
+```
+
+该 target 已带 App Sandbox + Hardened Runtime、网络 client/server 与 USB entitlement、
+AppIcon asset catalog、隐私清单和两套本地化。`build.sh` 仍用于直接分发构建。
+
+**还不能提交审核：** 这只是 App Store 的工程脚手架。自包含 Swift daemon 和 USB 固件
+刷写还没有移植；当前 App 仍连接 Node daemon 并使用 `launchctl`，后者在 App Store 沙盒里
+不可用。
+
 | 文件 | 职责 |
 |---|---|
 | `Sources/AgentRing/AgentRingApp.swift` | `MenuBarExtra`、设置窗口、App delegate |
@@ -35,7 +54,12 @@ ad-hoc 签名。
 | `Resources/en.lproj`, `Resources/zh-Hans.lproj` | 界面文案；`build.sh` 把两者都复制进 App bundle |
 | `Sources/AgentRing/MenuBarIcon.swift` | 加载模板菜单栏灯环并提供 `MenuBarGlyph` |
 | `Resources/Logo.png` | 用于生成 App 和菜单栏图标的品牌 logo |
+| `Resources/MenuBarIcon.png`, `@2x` | 生成后的菜单栏模板图标 |
 | `make-icon.py` | 把 logo 裁切/遮罩成 `build.sh` 使用的 1024 px App 图标 |
+| `project.yml` | App Store target 的 XcodeGen spec |
+| `AgentRing.xcodeproj` | 生成的 Xcode 工程（App Store 打包） |
+| `Configuration/` | Info.plist、App Sandbox entitlements 和隐私清单 |
+| `Assets.xcassets` | AppIcon asset catalog |
 
 App 是 `LSUIElement`：没有 Dock 图标。如果菜单栏图标没出现，请在 macOS「菜单栏」设置
 以及 Thaw/Bartender/Ice 里允许 AgentRing 显示。
