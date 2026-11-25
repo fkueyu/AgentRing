@@ -6,6 +6,10 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-25
+
+A bilingual interface and a more comfortable sidebar header.
+
 ### Added
 
 - The app interface can switch between Simplified Chinese and English in

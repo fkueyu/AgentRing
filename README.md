@@ -8,7 +8,7 @@ AgentRing 是一个本地优先的小工具：一个常驻 daemon 收集 Codex /
 Claude Code 的状态，在电脑侧完成布局、动效和功耗计算，再把 72 字节的 RGB 帧交给
 ESP32-C3 灯环和控制它的 macOS 菜单栏 App。
 
-当前版本 **0.3.0** · [部署指南](docs/installation.md) · [使用说明](docs/usage.md) · [更新日志](CHANGELOG.md)
+当前版本 **0.4.0** · [部署指南](docs/installation.md) · [使用说明](docs/usage.md) · [更新日志](CHANGELOG.md)
 
 ![预览](docs/images/settings-preview.png)
 
@@ -146,7 +146,7 @@ Mac，必要时在 `config.h` 里设置静态 `AGENTRING_HOST`。
 
 ## 状态与限制
 
-- 当前版本 0.3.0；配置为 v3，0.2.x 的配置会在 daemon 启动时自动迁移。
+- 当前版本 0.4.0；配置为 v3，0.2.x 的配置会在 daemon 启动时自动迁移。
 - 当前主链路是 DeepSeek Harness；Codex / Claude Code 的 hooks 可在来源页一键接入，但默认不安装。Claude Code 的 `StopFailure` 也会驱动报错态。
 - daemon 没有鉴权：仅 `/frame`、`/health` 和只读 TCP 帧流 `7802` 对局域网开放；预览、`/state`、`/config` 和所有写接口只接受 loopback。只在可信网络使用。
 - 固件配网热点默认开放；可在 `config.h` 设置 `AP_PASSWORD`。

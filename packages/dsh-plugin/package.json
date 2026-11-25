@@ -1,6 +1,6 @@
 {
   "name": "@local/agentring-dsh",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "Report DeepSeek Harness agent activity to the AgentRing LED daemon",

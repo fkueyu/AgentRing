@@ -195,7 +195,7 @@ Two timeouts keep the ring honest:
 
 ## Colour model
 
-AgentRing 0.3 has one palette model:
+Since AgentRing 0.3, there is one palette model:
 
 - `会话配色` (the accent) decides the running look. **状态色** uses the six state
   colours; **来源色** uses each tool's colour; **霓虹 / 日落 / 薄荷 / 极光 /
